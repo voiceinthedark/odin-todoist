@@ -1,13 +1,15 @@
 import { v4 as uuidv4 } from 'uuid';
 
+/* class Todo 
+ * * * * * * * */
 class Todo {
   #id;
   #title;
   #description;
   #dueDate;
   #priority;
-  notes;
-  checklist;
+  #notes;
+  #checklist;
 
   constructor(title, description, dueDate, priority, notes, checklist) {
     this.#id = uuidv4();
@@ -15,8 +17,8 @@ class Todo {
     this.#description = description;
     this.#dueDate = dueDate;
     this.#priority = priority;
-    this.notes = notes;
-    this.checklist = checklist;
+    this.#notes = notes;
+    this.#checklist = checklist;
   }
 
   get id() {
@@ -53,6 +55,20 @@ class Todo {
 
   get title() {
     return this.#title;
+  }
+
+  get notes(){
+    return this.#notes;
+  }
+  set notes(val){
+    this.#notes = val;
+  }
+
+  get checklist(){
+    return this.#checklist;
+  }
+  set checklist(val){
+    this.#checklist = val;
   }
 }
 

@@ -1,9 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-/* 
- * 
- * class Project - to categorize todos in a list
- * 
+/* class Project - to categorize todos in a list
  * * * * * * * * * * * */
 class Project{
   #id;
@@ -11,11 +8,11 @@ class Project{
   #description;
   #todos;
 
-  constructor(name, description, todolist = []){
+  constructor(name, description, todos){
     this.#id = uuidv4();
     this.#name = name;
     this.#description = description;
-    this.#todos = todos;
+    this.#todos = todos || [];
   }
 
   get id(){
