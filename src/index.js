@@ -31,3 +31,9 @@ project.addTodo('p1todo', 'p1desc', new Date(), null, null);
 console.log(project.todos)
 project.addTodo('p1 todo2', 'desc', new Date(), null, null);
 console.log(project.todos)
+
+//get fist project todo and remove it
+//
+const fprtodo = project.todos[0];
+project.removeTodo(fprtodo.id);
+console.log(project.todos);
