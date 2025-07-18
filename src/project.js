@@ -5,7 +5,7 @@ import Todo from './todo.js';
 
 /* class Project - to categorize todos in a list
  * * * * * * * * * * * */
-class Project{
+class Project {
   #id;
   #name;
   #description;
@@ -15,39 +15,39 @@ class Project{
    * @param {string} name 
    * @param {string} description 
    * */
-  constructor(name, description){
+  constructor(name, description) {
     this.#id = uuidv4();
     this.#name = name;
     this.#description = description;
     this.#todoManager = new TodoManager([]);
   }
 
-  get id(){
+  get id() {
     return this.#id;
   }
-  set id(val){
+  set id(val) {
     this.#id = val;
   }
 
-  get name(){
+  get name() {
     return this.#name;
   }
 
-  set name(val){
+  set name(val) {
     this.#name = val;
   }
 
-  get description(){
+  get description() {
     return this.#description;
   }
-  set description(val){
+  set description(val) {
     this.#description = val;
   }
 
-  get todos(){
+  get todos() {
     return this.#todoManager.todos;
   }
-  set todos(val){
+  set todos(val) {
     this.#todoManager.todos = val;
   }
 
@@ -58,11 +58,11 @@ class Project{
    * @param {string} description 
    * @param {Date} dueDate 
    * @param {number} priority 
-   * @param {string} notes 
-   * @param {[]} checklist 
+   * @param {string} [notes='']
+   * @param {[]} [checklist = []] - an array of checklist items
    * @returns {Todo} 
    * */
-  addTodo(title, description, dueDate, priority, notes, checklist){
+  addTodo(title, description, dueDate, priority, notes = '', checklist = []) {
     return this.#todoManager.addTodo(title, description, dueDate, priority, notes, checklist);
   }
 
@@ -70,9 +70,24 @@ class Project{
    * function removeTodo - removes a todo from the project by id
    * @param {string} id 
    * */
-  removeTodo(id){
+  removeTodo(id) {
     this.#todoManager.removeTodo(id);
   }
+
+  // get todoManager(){
+  //   return this.#todoManager;
+  // }
+  //
+  toJSON() {
+    return {
+      id: this.#id,
+      name: this.#name,
+      description: this.#description,
+      todos: this.#todoManager.todos.map(todo => todo.toJSON ? todo.toJSON() : todo),
+
+    }
+  }
+
 }
 
 export default Project;

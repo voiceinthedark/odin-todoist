@@ -1,6 +1,7 @@
 import Todo from './todo.js';
 import TodoManager from './todomanager.js';
 import Project from './project.js';
+import storageManager from './todostoragemanager.js';
 
 
 const atodo = new Todo('new todo', 'desc', new Date(), 'none', null, null);
@@ -29,7 +30,7 @@ const project = new Project('p1', 'p1 desc');
 
 project.addTodo('p1todo', 'p1desc', new Date(), null, null);
 console.log(project.todos)
-project.addTodo('p1 todo2', 'desc', new Date(), null, null);
+project.addTodo('p1 todo2', 'desc', new Date(), 2);
 console.log(project.todos)
 
 //get fist project todo and remove it
@@ -37,3 +38,7 @@ console.log(project.todos)
 const fprtodo = project.todos[0];
 project.removeTodo(fprtodo.id);
 console.log(project.todos);
+
+// testing storagemanager
+// add the project to the database
+storageManager.setItem(project.id, JSON.stringify(project));

@@ -70,6 +70,19 @@ class Todo {
   set checklist(val){
     this.#checklist = val;
   }
+
+  toJSON(){
+    return{
+      id: this.#id,
+      title: this.#title,
+      description: this.#description,
+      dueDate: this.#dueDate,
+      priority: this.#priority,
+      notes: this.#notes,
+      checklist: this.#checklist,
+    }
+  }
+  
 }
 
 export default Todo;
