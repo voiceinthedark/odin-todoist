@@ -1,0 +1,75 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-color-main: #fff;
+  --color-main: rgb(152, 144, 145);
+  --sidebar-bg-color: rgb(42, 52, 223);
+  --sidebar-color: #fff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  color: var(--color-main);
+  font-size: 16px;
+}
+
+
+
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  grid-template-areas: "sidebar content";
+  height: inherit;
+
+  .sidebar {
+    background-color: var(--sidebar-bg-color);
+    color: var(--sidebar-color);
+    /* padding: 10px 20px; */
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 3fr 3fr;
+    /* grid-template-areas: "head" */
+    /*   "options" */
+    /*   "lists"; */
+
+    &>.sidebar-head {
+      font-size: 150%;
+      /* grid-area: head; */
+    }
+
+    &>.sidebar-options {
+
+      /* grid-area: options; */
+      &>ul {
+        list-style: none;
+      }
+    }
+
+    &>.sidebar-lists {
+
+      & > #sidebar-lists-head{
+        background-color: rgba(255, 255, 250, 0.1);
+        height: 60px;
+        &>h1{
+          padding-top: 5px;
+          padding-left: 5px;
+        }
+      }
+      /* grid-area: lists; */
+      &>ul {
+        list-style: none;
+      }
+    }
+  }
+
+  .content {
+    padding: 10px 20px;
+  }
+}

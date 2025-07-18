@@ -12,8 +12,9 @@ class Project {
   #todoManager;
 
   /**
-   * @param {string} name 
-   * @param {string} description 
+   * class Project, containst list of todos associated wit the project
+   * @param {string} name - name of the project
+   * @param {string} description - description of the project
    * */
   constructor(name, description) {
     this.#id = uuidv4();

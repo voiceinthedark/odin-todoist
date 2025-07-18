@@ -2,6 +2,9 @@
 import Project from './project.js';
 
 class ProjectManager {
+  /**
+   * @type {Project[]}
+   * */
   #projects;
   constructor() {
     this.#projects = [];
@@ -52,8 +55,7 @@ class ProjectManager {
   /** 
    *  function getProjectById will return a project by id
    *  @param {string} id 
-   *  @returns {Project} project
-   *  
+   *  @returns {Project | undefined} project
    * */
   getProjectById(id) {
     return this.#projects.find((p) => p.id === id);
