@@ -2,6 +2,7 @@ import Todo from './todo.js';
 import TodoManager from './todomanager.js';
 import Project from './project.js';
 import storageManager from './todostoragemanager.js';
+import projectManager from './projectmanager.js';
 
 
 const atodo = new Todo('new todo', 'desc', new Date(), 'none', null, null);
@@ -42,3 +43,18 @@ console.log(project.todos);
 // testing storagemanager
 // add the project to the database
 storageManager.setItem(project.id, JSON.stringify(project));
+
+// testing multiple projects
+const proj2 = new Project('p2', 'second');
+const proj3 = new Project('p3', 'third');
+
+proj2.addTodo('p2 t1', 't1', new Date(), 3);
+proj2.addTodo('p2 t2', 't2', new Date(), 1);
+proj2.addTodo('p2 t3', 't3', new Date(), 2);
+
+proj3.addTodo('p3 t1', 't1', new Date(), 4);
+proj3.addTodo('p3 t2', 't2', new Date(), 4);
+
+projectManager.projects = [proj2, proj3];
+
+storageManager.setItem('user1', JSON.stringify(projectManager.projects))
