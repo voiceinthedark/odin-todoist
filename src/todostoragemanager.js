@@ -1,5 +1,4 @@
 // @ts-check
-
 class TodoStorageManager {
   #storage;
   /**

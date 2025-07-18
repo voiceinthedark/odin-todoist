@@ -1,3 +1,4 @@
+// @ts-check
 import { v4 as uuidv4 } from 'uuid';
 
 /* class Todo 
@@ -11,7 +12,15 @@ class Todo {
   #notes;
   #checklist;
 
-  constructor(title, description, dueDate, priority, notes, checklist) {
+  /**
+   * @param {string} title - Todo title
+   * @param {string} description - todo description
+   * @param {Date} dueDate - todo Date
+   * @param {number} priority - todo priority 1..4
+   * @param {string} [notes=''] - notes (default none)
+   * @param {[]} [checklist = []] - checklist options (default none)
+   * */
+  constructor(title, description, dueDate, priority, notes = '', checklist = []) {
     this.#id = uuidv4();
     this.#title = title;
     this.#description = description;
