@@ -33,5 +33,25 @@ class UIManager {
     return elem;
 
   }
+
+  /**
+   * @param {Node} parent - parent element of the removed child 
+   * @param {Node} element - the Element to be removed
+   * @returns {[Node, number] | number} - returns an array containing the removed element and parent childs count
+   * */
+  removeElement(parent, element){
+    if(parent.childNodes.length === 0){
+      return 0;
+    }
+    const removed = parent.removeChild(element);
+    const parentLength = parent.childNodes.length;
+
+    return [removed, parentLength];
+  }
+
+  get container(){
+    return this.#container;
+  }
 }
 
+export default UIManager;

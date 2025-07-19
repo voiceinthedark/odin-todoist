@@ -15,13 +15,14 @@ class TodoManager {
    * @param {string} description - description of todo
    * @param {Date} dueDate - due date for todo
    * @param {number} priority - priority of to do 1..4 (1 being highest)
+   * @param {boolean} status - status of todo (default false)
    * @param {string} notes - extra notes on the todo
    * @param {object} checklist - checklist of items for the todo
    *
    * @returns {object} todo
    * */
-  addTodo(title, description, dueDate, priority, notes, checklist) {
-    const todo = new Todo(title, description, dueDate, priority, notes, checklist);
+  addTodo(title, description, dueDate, priority, status, notes, checklist) {
+    const todo = new Todo(title, description, dueDate, priority, status, notes, checklist);
     this.#todos.push(todo);
     return todo;
   }

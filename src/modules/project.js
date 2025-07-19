@@ -59,12 +59,13 @@ class Project {
    * @param {string} description 
    * @param {Date} dueDate 
    * @param {number} priority 
+   * @param {boolean} [status=false] - todo status (default false)
    * @param {string} [notes='']
    * @param {[]} [checklist = []] - an array of checklist items
    * @returns {Todo} 
    * */
-  addTodo(title, description, dueDate, priority, notes = '', checklist = []) {
-    return this.#todoManager.addTodo(title, description, dueDate, priority, notes, checklist);
+  addTodo(title, description, dueDate, priority, status = false, notes = '', checklist = []) {
+    return this.#todoManager.addTodo(title, description, dueDate, priority, status, notes, checklist);
   }
 
   /**

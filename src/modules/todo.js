@@ -9,6 +9,7 @@ class Todo {
   #description;
   #dueDate;
   #priority;
+  #status = false;
   #notes;
   #checklist;
 
@@ -17,15 +18,17 @@ class Todo {
    * @param {string} description - todo description
    * @param {Date} dueDate - todo Date
    * @param {number} priority - todo priority 1..4
+   * @param {boolean} [status=false] -  todo status (default false)
    * @param {string} [notes=''] - notes (default none)
    * @param {[]} [checklist = []] - checklist options (default none)
    * */
-  constructor(title, description, dueDate, priority, notes = '', checklist = []) {
+  constructor(title, description, dueDate, priority, status = false, notes = '', checklist = []) {
     this.#id = uuidv4();
     this.#title = title;
     this.#description = description;
     this.#dueDate = dueDate;
     this.#priority = priority;
+    this.#status = status;
     this.#notes = notes;
     this.#checklist = checklist;
   }
@@ -58,6 +61,13 @@ class Todo {
     return this.#description;
   }
 
+  set status(val) {
+    this.#status = val;
+  }
+  get status() {
+    return this.#status;
+  }
+
   set title(val) {
     this.#title = val;
   }
@@ -87,6 +97,7 @@ class Todo {
       description: this.#description,
       dueDate: this.#dueDate,
       priority: this.#priority,
+      status: this.#status,
       notes: this.#notes,
       checklist: this.#checklist,
     }
