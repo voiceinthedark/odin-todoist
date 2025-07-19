@@ -1,16 +1,25 @@
 // @ts-check
 import Todo from "./todo.js";
 
-
+/**
+ * TodoManager class to manage todos
+ * @class
+ * @author - voiceinthedark@github.com
+ * */
 class TodoManager {
+  /**
+   * private attribute todos
+   * */
   #todos;
-  /** @param {Todo[]} todos - an array of todo objects */
+  /** 
+   * @class
+   * @param {Todo[]} todos - an array of todo objects */
   constructor(todos) {
     this.#todos = todos || [];
   }
 
   /**
-   * function addTodo will add a todo into the list of todos
+   * @function - addTodo will add a todo into the list of todos
    * @param {string} title - the title of todo
    * @param {string} description - description of todo
    * @param {Date} dueDate - due date for todo
@@ -52,4 +61,8 @@ class TodoManager {
     this.#todos = val;
   }
 }
+
+/**
+ * @exports TodoManager
+ * */
 export default TodoManager;

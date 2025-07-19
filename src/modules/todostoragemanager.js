@@ -1,7 +1,14 @@
 // @ts-check
+
+/**
+ * @class TodoStorageManager
+ * @classdesc A Storage manager to add and get the todo lists
+ * @author voiceinthedark@github.io.com
+ * */
 class TodoStorageManager {
   #storage;
   /**
+   * @class
    * @param {Storage | object} storage 
    * */
   constructor(storage) {
@@ -12,7 +19,7 @@ class TodoStorageManager {
   }
 
   /**
-   * setItem saves an item to the storage
+   * @method setItem saves an item to the storage
    * @param {string} key
    * @param {string} val 
    * */
@@ -21,7 +28,7 @@ class TodoStorageManager {
   }
 
   /**
-   * getItem get an item from the storage by key
+   * @method getItem get an item from the storage by key
    * @param {string} key
    * @returns {string | null} 
    * */
@@ -30,6 +37,7 @@ class TodoStorageManager {
   }
 
   /**
+   * @method - set the storage type (default: localStorage)
    * @param {Storage} val - the storage window.localStorage (default), Firebase, etc
    * */
   set storage(val) {
@@ -41,5 +49,8 @@ class TodoStorageManager {
 
 }
 
+/**
+ * @exports a singleton instance of storageManager with default options
+ * */
 const storageManager = new TodoStorageManager(window.localStorage);
 export default storageManager;
