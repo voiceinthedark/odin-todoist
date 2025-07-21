@@ -40,7 +40,7 @@ class ModalRenderer {
           <label for="todo-description">Description:</label>
           <textarea id="todo-description" name="description" rows="5">${this.#todo.description}</textarea>
           <label for="todo-due-date">Due Date:</label>
-          <input type="datetime" id="todo-due-date" name="dueDate" value="${format(this.#todo.dueDate, `MM / dd / yyyy hh:mm`)}">
+          <input type="datetime-local" id="todo-due-date" name="dueDate" value="${format(this.#todo.dueDate, `yyyy-MM-dd'T'HH:mm`)}">
           <label for="todo-priority">Priority:</label>
           <select id="todo-priority" name="priority">
             <option value="1" ${this.#todo.priority === 1 ? 'selected' : ''}>Lowest</option>
