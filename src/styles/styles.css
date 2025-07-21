@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Font Awesome 6 Free';
+  src: url('../assets/fonts/fa-solid-900.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+
 *,
 *::before,
 *::after {
@@ -93,14 +100,15 @@ body {
       flex-direction: column;
       align-items: flex-start;
       justify-content: space-evenly;
-      border-radius: 12px;
+      /* border-radius: 12px; */
       /* border: 1px solid #224; */
-      height: 150px;
+      height: 100px;
       width: 50%;
       padding: 0 10px;
 
       &:hover {
-        background-color: var(--tea-green);
+        /* background-color: var(--tea-green); */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       }
 
       .todo-header {
@@ -111,9 +119,13 @@ body {
         width: 100%;
         margin: 0;
 
-        .todo-header-right{
+        .todo-header-right {
           display: flex;
-          gap:10px;
+          gap: 10px;
+
+          .todo-due-date {
+            color: crimson;
+          }
         }
       }
 
@@ -124,7 +136,7 @@ body {
 
       .todo-description {
         /* height: 50%; */
-        font-size: 110%;
+        font-size: 85%;
       }
 
       .todo-footer {
@@ -132,9 +144,71 @@ body {
         width: 100%;
         justify-content: space-between;
         margin-bottom: 0;
+
+        .todo-notes {
+          font-size: 80%;
+        }
       }
 
     }
 
+  }
+
+  .status-completed {
+    color: var(--color-tea);
+  }
+
+  .status-pending {
+    color: var(--bg-color-secondary);
+  }
+
+  .status-overdue {
+    color: red;
+  }
+
+  .priority-high {
+    color: crimson;
+  }
+  .priority-medium {
+    color: orange;
+  }
+  .priority-low {
+    color: green;
+  }
+  .priority-lowest{
+    color:lightseagreen;
+  }
+
+  .todo-card-priority-high{
+    background: linear-gradient(
+      to right,
+      rgba(255, 0, 0, 0.1),
+      rgba(255, 0, 0, 0.2)
+    );
+    border-left: 5px solid crimson;
+  }
+  .todo-card-priority-medium{
+    background: linear-gradient(
+      to right,
+      rgba(255, 165, 0, 0.1),
+      rgba(255, 165, 0, 0.2)
+    );
+    border-left: 5px solid orange;
+  }
+  .todo-card-priority-low{
+    background: linear-gradient(
+      to right,
+      rgba(0, 128, 0, 0.1),
+      rgba(0, 128, 0, 0.2)
+    );
+    border-left: 5px solid green;
+  }
+  .todo-card-priority-lowest{
+    background: linear-gradient(
+      to right,
+      rgba(32, 178, 170, 0.1),
+      rgba(32, 178, 170, 0.2)
+    );
+    border-left: 5px solid lightseagreen;
   }
 }

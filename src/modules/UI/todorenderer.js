@@ -26,15 +26,36 @@ class TodoRenderer {
     const todoTitle = this.#ui.addElement('h3', headerDiv, 'todo-title');
     todoTitle.textContent = todo.title;
     const todoDueDate = this.#ui.addElement('span', headerRight, 'todo-due-date');
-    todoDueDate.textContent = `Due: ${todo.dueDate ? todo.dueDate.toLocaleDateString() : 'No due date'}`;
+    if (todoDueDate instanceof HTMLSpanElement) {
+      todoDueDate.innerHTML = `<i class="fa-solid fa-calendar"></i> ${todo.dueDate ? todo.dueDate.toLocaleDateString() : 'No due date'}`;
+    }
     const todoPriority = this.#ui.addElement('span', headerRight, 'todo-priority');
-    todoPriority.textContent = `Priority: ${todo.priority ? todo.priority : 'None'}`;
-
+    if (todoPriority instanceof HTMLSpanElement && todoCard instanceof HTMLDivElement) {
+      todoPriority.innerHTML = `<i class="fa-solid fa-flag"></i>`;
+      switch (todo.priority) {
+        case 1:
+          todoPriority.classList.toggle('priority-lowest');
+          todoCard.classList.toggle('todo-card-priority-lowest');
+          break;
+        case 2:
+          todoPriority.classList.toggle('priority-low');
+          todoCard.classList.toggle('todo-card-priority-low');
+          break;
+        case 3:
+          todoPriority.classList.toggle('priority-medium');
+          todoCard.classList.toggle('todo-card-priority-medium');
+          break;
+        case 4:
+          todoPriority.classList.toggle('priority-high');
+          todoCard.classList.toggle('todo-card-priority-high');
+          break;
+      }
+    }
 
     const todoDescription = this.#ui.addElement('span', todoCard, 'todo-description');
     todoDescription.textContent = todo.description;
 
-const footerDiv = this.#ui.addElement('div', todoCard, 'todo-footer');
+    const footerDiv = this.#ui.addElement('div', todoCard, 'todo-footer');
 
 
     const todoNotes = this.#ui.addElement('span', footerDiv, 'todo-notes');
@@ -45,7 +66,19 @@ const footerDiv = this.#ui.addElement('div', todoCard, 'todo-footer');
       checklistItem.textContent = item;
     });
     const todoStatus = this.#ui.addElement('span', footerDiv, 'todo-status');
-    todoStatus.textContent = `Status: ${todo.status ? 'Completed' : 'Pending'}`;
+    if (todoStatus instanceof HTMLSpanElement) {
+      todoStatus.innerHTML = `${todo.status ? '<i class="fa-regular fa-check"></i> Completed' : '<i class="fa-regular fa-clock"></i> Pending'}`;
+      if (todo.status) {
+        todoStatus.classList.toggle('status-completed');
+      } else {
+        todoStatus.classList.toggle('status-pending');
+      }
+    }
+
+    // set the data attribute for the todo
+    if (todoCard instanceof HTMLDivElement) {
+      todoCard.setAttribute('data-todo-id', todo.id);
+    }
 
   }
 
