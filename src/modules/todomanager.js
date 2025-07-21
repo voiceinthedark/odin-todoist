@@ -60,6 +60,14 @@ class TodoManager {
   set todos(val) {
     this.#todos = val;
   }
+
+  /**
+   * @method to get todo by id
+   * @param {string} id 
+   * */
+  getTodoById(id){
+    return this.#todos.find(todo => todo.id === id);
+  }
 }
 
 /**

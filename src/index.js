@@ -28,7 +28,12 @@ console.log(firstp.todos);
 
 const contentContainer = document.querySelector('.content');
 
-const todoRenderer = new TodoRenderer(uiManager, contentContainer);
+const handleTodoClick = (todo) => {
+  console.log('Todo Clicked:', todo.id);
+  uiManager.getModalRenderer(todo, contentContainer).showEditModal();
+}
+
+const todoRenderer = new TodoRenderer(uiManager, contentContainer, handleTodoClick);
 
 todoRenderer.renderTodoList(firstp.todos)
 

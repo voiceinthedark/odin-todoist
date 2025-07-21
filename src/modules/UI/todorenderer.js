@@ -6,13 +6,16 @@ import UIManager from "./uimanager.js";
 class TodoRenderer {
   #parentElement;
   #ui;
+  #onTodoClick;
   /**
    * @param {UIManager} uiManager 
    * @param {Node} parent 
+   * @param {Function} onTodoClick
    * */
-  constructor(uiManager, parent) {
+  constructor(uiManager, parent, onTodoClick) {
     this.#parentElement = parent;
     this.#ui = uiManager;
+    this.#onTodoClick = onTodoClick;
   }
 
   /**
@@ -80,6 +83,10 @@ class TodoRenderer {
       todoCard.setAttribute('data-todo-id', todo.id);
     }
 
+    // capture click event on the todo card
+    todoCard.addEventListener('click', () => {
+      this.#onTodoClick(todo)
+    });
   }
 
   /**

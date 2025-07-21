@@ -1,5 +1,7 @@
 // @ts-check
-//
+import Todo from "../todo.js";
+import ModalRenderer from "./modalRenderer.js";
+
 class UIManager {
   #container;
   /**
@@ -47,6 +49,15 @@ class UIManager {
     const parentLength = parent.childNodes.length;
 
     return [removed, parentLength];
+  }
+
+  /**
+   * @method to get the modal renderer for a todo item
+   * @param {Todo} todo 
+   * @param {Node} parentElement 
+   * */
+  getModalRenderer(todo, parentElement){
+    return new ModalRenderer(todo, parentElement, this);
   }
 
   get container(){
