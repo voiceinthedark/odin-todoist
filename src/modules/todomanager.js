@@ -4,7 +4,7 @@ import Todo from "./todo.js";
 /**
  * TodoManager class to manage todos
  * @class
- * @author - voiceinthedark@github.com
+ * @author - voiceinthedark
  * */
 class TodoManager {
   /**

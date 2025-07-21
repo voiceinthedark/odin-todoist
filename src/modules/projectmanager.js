@@ -1,22 +1,30 @@
 // @ts-check
 import Project from './project.js';
-
+/**
+ * @class ProjectManager
+ * @description Manages a collection of projects
+ * @author voiceinthedark
+ * */
 class ProjectManager {
   /**
    * @type {Project[]}
    * */
   #projects;
+  /**
+   * @constructor
+    * */
   constructor() {
     this.#projects = [];
   }
 
   /**
    * function addProject will add a project into the list of projects
+   * @method addProject
    * @param {string} name - the name of the project
    * @param {string} description - description of the project
    * @returns {Project} project
    */
-  addProject(name, description ) {
+  addProject(name, description) {
     const project = new Project(name, description);
     this.#projects.push(project);
     return project;
@@ -24,6 +32,7 @@ class ProjectManager {
 
   /**
    * function removeProject will remove a project by id
+   * @method removeProject
    * @param {string} id - the id of the project
    * @returns {boolean} - returns true if project removed
    */
@@ -35,16 +44,16 @@ class ProjectManager {
     return this.#projects.length < initialLength;
   }
 
-/**
+  /**
    * Returns the list of projects managed by the ProjectManager.
    * A shallow copy is returned to prevent direct external modification.
    * @returns {Project[]} An array of project objects
    */
-  get projects(){
+  get projects() {
     return [...this.#projects];
   }
-  
-/** 
+
+  /** 
    * Sets the entire list of projects. Use with caution as it bypasses
    * individual add/remove methods.
    * @param {Project[]} val - an array of Project elements
@@ -70,5 +79,9 @@ class ProjectManager {
   }
 }
 
+/**
+ * Singleton instance of ProjectManager
+ * @module ProjectManager
+  * */
 const projectManager = new ProjectManager();
 export default projectManager;
