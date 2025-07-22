@@ -51,6 +51,17 @@ class UIManager {
     return [removed, parentLength];
   }
 
+
+  /**
+   * @method to clear all child elements of a parent element
+   * @param {Node} parent 
+   **/
+  clearElement(parent){
+    while(parent.firstChild){
+      parent.removeChild(parent.firstChild);
+    }
+  }
+
   /**
    * @method to get the modal renderer for a todo item
    * @param {Todo} todo 

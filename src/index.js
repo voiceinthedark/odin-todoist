@@ -28,12 +28,19 @@ console.log(firstp.todos);
 
 const contentContainer = document.querySelector('.content');
 
+// todos list live here
+const contentMain = document.querySelector('.content-main');
+
 const handleTodoClick = (todo) => {
   console.log('Todo Clicked:', todo.id);
-  uiManager.getModalRenderer(todo, contentContainer).showEditModal();
+  uiManager.getModalRenderer(todo, contentContainer).showEditModal(()=>{
+    uiManager.clearElement(contentMain);
+    todoRenderer.renderTodoList(firstp.todos);
+    // console.log(firstp.todos)
+  });
 }
 
-const todoRenderer = new TodoRenderer(uiManager, contentContainer, handleTodoClick);
+const todoRenderer = new TodoRenderer(uiManager, contentMain, handleTodoClick);
 
 todoRenderer.renderTodoList(firstp.todos)
 

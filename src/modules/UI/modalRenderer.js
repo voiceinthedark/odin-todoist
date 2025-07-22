@@ -2,6 +2,7 @@
 import UIManager from "./uimanager.js";
 import Todo from "../todo.js";
 import { format } from "date-fns";
+
 /**
  * @class
  * @classdesc Module to render modals
@@ -24,8 +25,9 @@ class ModalRenderer {
 
   /**
    * @method showEditModal to show the modal ui
+   * @param {Function} onUpdate
    * */
-  showEditModal() {
+  showEditModal(onUpdate = () => {}) {
     const modal = this.#ui.addElement('div', this.#parentElement, 'modal');
 
     if (modal instanceof HTMLDivElement) {
@@ -51,11 +53,53 @@ class ModalRenderer {
           <button type="submit">Save</button>
         </form>
       </div>`;
+
+      const close = () => {
+        modal.classList.remove('show');
+        modal.classList.add('hide');
+      }
+
+
+      const closeButton = modal.querySelector('.close');
+      if (closeButton) {
+        closeButton.addEventListener('click', close);
+      }
+
+      const editForm = modal.querySelector('#edit-todo-form');
+      if (editForm instanceof HTMLFormElement) {
+        editForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+
+          console.log('form submitted');
+
+          const formData = new FormData(editForm);
+          for (const pair of formData.entries()) {
+            console.log(`${pair[0]}: ${pair[1]}`);
+          }
+          // update todo
+          this.#todo.title = '' + formData.get('title') || '';
+          this.#todo.description = '' + formData.get('description') || '';
+          const dueDateString = formData.get('dueDate');
+          if (typeof dueDateString === 'string' && dueDateString.length > 0) {
+            this.#todo.dueDate = new Date(dueDateString);
+          } else {
+            this.#todo.dueDate = new Date(); // Fallback to current date if not provided
+          }
+          const priorityString = formData.get('priority');
+          if (typeof priorityString === 'string') {
+            const priorityNumber = parseInt(priorityString, 10);
+            if (!isNaN(priorityNumber)) {
+              this.#todo.priority = priorityNumber;
+            }
+          }
+
+          onUpdate(this.#todo);
+
+          close();
+        });
+
+      }
     }
-
-
-
-
   }
 }
 
