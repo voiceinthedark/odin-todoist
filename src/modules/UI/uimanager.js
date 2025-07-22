@@ -55,6 +55,7 @@ class UIManager {
   /**
    * @method to clear all child elements of a parent element
    * @param {Node} parent 
+   * @description clear all the elements inside of parent
    **/
   clearElement(parent){
     while(parent.firstChild){

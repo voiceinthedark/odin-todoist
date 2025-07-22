@@ -29,15 +29,15 @@ class ProjectRenderer {
     const projectCard = this.#ui.addElement('div', parentElement, 'project-card');
 
     const titleElement = this.#ui.addElement('h3', projectCard, 'project-title');
-    titleElement.textContent = project.name; 
+    titleElement.textContent = project.name;
 
     const descElement = this.#ui.addElement('p', projectCard, 'project-description');
-    descElement.textContent = project.description; 
-    
+    descElement.textContent = project.description;
+
     const todoListContainer = this.#ui.addElement('ul', projectCard, 'project-todos');
     project.todos.forEach(todo => {
       const todoItem = this.#ui.addElement('li', todoListContainer, 'todo-item');
-      todoItem.textContent = todo.title; 
+      todoItem.textContent = todo.title;
     });
     return projectCard;
   }
@@ -53,7 +53,16 @@ class ProjectRenderer {
     const projectList = this.#ui.addElement('ul', projectListContainer, 'project-list-items');
     projects.forEach(project => {
       const projectItem = document.createElement('li');
-      projectItem.textContent = project.name;
+      const projectDiv = document.createElement('div');
+      const projectName = this.#ui.addElement('span', projectDiv, 'project-name');
+      if (projectName instanceof HTMLSpanElement) {
+        projectName.textContent = project.name;
+      }
+      const projectTodosCount = this.#ui.addElement('span', projectDiv, 'project-todos-count');
+      if (projectTodosCount instanceof HTMLSpanElement) {
+        projectTodosCount.textContent = `${project.todos.length}`;
+      }
+      projectItem.appendChild(projectDiv);
       projectList.appendChild(projectItem);
     });
     projectListContainer.appendChild(projectList);

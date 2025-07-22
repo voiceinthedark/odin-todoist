@@ -69,6 +69,7 @@ body {
     }
 
     &>.sidebar-lists {
+      margin-left: 0;
 
       &>#sidebar-lists-head {
         background-color: rgba(255, 255, 250, 0.1);
@@ -84,10 +85,56 @@ body {
       &>ul {
         list-style: none;
       }
+      & > .project-list{
+        margin-left: 0;
+      }
+
+      .project-list-items {
+        list-style: none;
+        list-style-position: inside;
+        padding: 10px 0 0 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-left: 0;
+        margin-bottom: 10px;
+
+
+        &>li>div{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 5px 10px;
+          /* margin: 0 -40px; */
+          height: 50px;
+          gap: 10px;
+          background-color: rgba(255, 255, 250, 0.1);
+
+          &:hover{
+            background-color: rgba(255, 255, 250, 0.2);
+          }
+
+          &>.project-name{
+            font-size: 130%;
+            font-weight: 600;
+          }
+          & >.project-todos-count{
+            font-size: 80%;
+            border-radius: 50%;
+            font-weight: 300;
+            border: 1px solid var(--bg-color-secondary);
+            background-color: var(--bg-color-tertiary);
+            padding: 2px 8px;
+          }
+          
+        }
+      }
     }
+
+
   }
 
-  .content{
+  .content {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -166,7 +213,7 @@ body {
 
   }
 
-  .modal{
+  .modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -187,28 +234,30 @@ body {
       max-width: 500px;
       display: flex;
       flex-direction: column;
+      align-content: flex-start;
 
-      #edit-todo-form{
+      #edit-todo-form {
         font-size: 110%;
         display: flex;
         flex-direction: column;
-        gap:8px;
+        gap: 8px;
       }
 
-      input{
+      input {
         appearance: none;
         border-style: ridge;
         border-radius: 4px;
         padding: 5px 5px;
       }
 
-      textarea{
+      textarea {
         resize: none;
       }
 
     }
   }
-  .show{
+
+  .show {
     display: flex;
   }
 
@@ -231,50 +280,48 @@ body {
   .priority-high {
     color: crimson;
   }
+
   .priority-medium {
     color: orange;
   }
+
   .priority-low {
     color: green;
   }
-  .priority-lowest{
-    color:lightseagreen;
+
+  .priority-lowest {
+    color: lightseagreen;
   }
 
-  .todo-card-priority-high{
-    background: linear-gradient(
-      to right,
-      rgba(255, 0, 0, 0.1),
-      rgba(255, 0, 0, 0.2)
-    );
+  .todo-card-priority-high {
+    background: linear-gradient(to right,
+        rgba(255, 0, 0, 0.1),
+        rgba(255, 0, 0, 0.2));
     border-left: 5px solid crimson;
   }
-  .todo-card-priority-medium{
-    background: linear-gradient(
-      to right,
-      rgba(255, 165, 0, 0.1),
-      rgba(255, 165, 0, 0.2)
-    );
+
+  .todo-card-priority-medium {
+    background: linear-gradient(to right,
+        rgba(255, 165, 0, 0.1),
+        rgba(255, 165, 0, 0.2));
     border-left: 5px solid orange;
   }
-  .todo-card-priority-low{
-    background: linear-gradient(
-      to right,
-      rgba(0, 128, 0, 0.1),
-      rgba(0, 128, 0, 0.2)
-    );
+
+  .todo-card-priority-low {
+    background: linear-gradient(to right,
+        rgba(0, 128, 0, 0.1),
+        rgba(0, 128, 0, 0.2));
     border-left: 5px solid green;
   }
-  .todo-card-priority-lowest{
-    background: linear-gradient(
-      to right,
-      rgba(32, 178, 170, 0.1),
-      rgba(32, 178, 170, 0.2)
-    );
+
+  .todo-card-priority-lowest {
+    background: linear-gradient(to right,
+        rgba(32, 178, 170, 0.1),
+        rgba(32, 178, 170, 0.2));
     border-left: 5px solid lightseagreen;
   }
 
-  .close{
+  .close {
     cursor: pointer;
   }
 
