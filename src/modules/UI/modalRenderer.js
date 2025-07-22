@@ -13,21 +13,72 @@ class ModalRenderer {
   #todo;
   /**
    * @constructor
-   * @param {Todo} todo 
+   * @param {Todo | null | undefined} todo 
    * @param {Node} parentElement 
    * @param {UIManager} uiManager
    * */
-  constructor(todo, parentElement, uiManager) {
+  constructor(todo = null, parentElement, uiManager) {
     this.#todo = todo;
     this.#ui = uiManager;
     this.#parentElement = parentElement;
+  }
+
+  showNewProjectModal(onSubmit = (name, description) => { }) {
+    const modal = this.#ui.addElement('div', this.#parentElement, 'modal');
+    if (modal instanceof HTMLDivElement) {
+      modal.classList.add('show');
+      modal.innerHTML = `
+      <div class="modal-content">
+        <span class="close"><i class="fa-solid fa-x"></i></span>
+        <h2>Add new Project</h2>
+        <form id="add-project-form">
+          <label for="project-name">Name:</label>
+          <input type="text" id="project-name" name="name" required>
+          <label for="project-description">Description:</label>
+          <textarea id="project-description" name="description" rows="5"></textarea>
+          <button type="submit">Save</button>
+        </form>
+      </div>`;
+
+      const closeButton = modal.querySelector('.close');
+      closeButton?.addEventListener('click', () => {
+        modal.classList.remove('show');
+        modal.classList.add('hide');
+      });
+
+      const addProjectForm = modal.querySelector('#add-project-form');
+      if (addProjectForm instanceof HTMLFormElement) {
+        addProjectForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+
+          const formData = new FormData(addProjectForm);
+          const name = formData.get('name')?.toString() || '';
+          const description = formData.get('description')?.toString() || '';
+
+          // call submit function wit the project data
+          onSubmit(name, description);
+
+
+          // Close the modal
+          modal.classList.remove('show');
+          modal.classList.add('hide');
+        });
+      }
+
+
+    }
+
   }
 
   /**
    * @method showEditModal to show the modal ui
    * @param {Function} onUpdate
    * */
-  showEditModal(onUpdate = () => {}) {
+  showEditModal(onUpdate = () => { }) {
+    if (!this.#todo) {
+      console.error('ModalRenderer: Cannot show edit modal without a todo object.');
+      return;
+    }
     const modal = this.#ui.addElement('div', this.#parentElement, 'modal');
 
     if (modal instanceof HTMLDivElement) {
@@ -75,6 +126,10 @@ class ModalRenderer {
           const formData = new FormData(editForm);
           for (const pair of formData.entries()) {
             console.log(`${pair[0]}: ${pair[1]}`);
+          }
+          if(!this.#todo){
+            console.error('ModalRenderer: todo object is null or undefined')
+            return;
           }
           // update todo
           this.#todo.title = '' + formData.get('title') || '';

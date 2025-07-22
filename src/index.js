@@ -10,4 +10,3 @@ const appContainer = document.getElementById('container');
 
 const appController = new AppController(appContainer);
 
-// appController.init();

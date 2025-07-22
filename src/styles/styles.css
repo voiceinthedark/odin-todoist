@@ -74,6 +74,28 @@ body {
       &>#sidebar-lists-head {
         background-color: rgba(255, 255, 250, 0.1);
         height: 60px;
+        display: flex;
+        padding-right: 10px;
+        justify-content: space-between;
+        align-items: center;
+
+        &>i {
+          padding-right: 10px;
+          padding-left: 10px;
+          padding-top: 5px;
+          padding-bottom: 5px;
+          font-size: 150%;
+          border-radius: 9px;
+          background-color: rgba(255, 255, 250, 0.2);
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            background-color: rgba(255, 255, 250, 0.3);
+            cursor: pointer;
+          }
+
+
+        }
 
         &>h1 {
           padding-top: 5px;
@@ -85,7 +107,8 @@ body {
       &>ul {
         list-style: none;
       }
-      & > .project-list{
+
+      &>.project-list {
         margin-left: 0;
       }
 
@@ -100,7 +123,7 @@ body {
         margin-bottom: 10px;
 
 
-        &>li>div{
+        &>li>div {
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -110,16 +133,17 @@ body {
           gap: 10px;
           background-color: rgba(255, 255, 250, 0.1);
 
-          &:hover{
+          &:hover {
             background-color: rgba(255, 255, 250, 0.2);
             cursor: pointer;
           }
 
-          &>.project-name{
+          &>.project-name {
             font-size: 130%;
             font-weight: 600;
           }
-          & >.project-todos-count{
+
+          &>.project-todos-count {
             font-size: 80%;
             border-radius: 50%;
             font-weight: 300;
@@ -127,7 +151,7 @@ body {
             background-color: var(--bg-color-tertiary);
             padding: 2px 8px;
           }
-          
+
         }
       }
     }

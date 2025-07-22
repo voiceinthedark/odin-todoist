@@ -53,21 +53,21 @@ class AppController {
 
   setupEventListeners() {
     // Example: Event listener for adding new projects (assuming a button or form)
-    // const addProjectButton = document.querySelector('#add-project-button');
-    // if (addProjectButton) {
-    //   addProjectButton.addEventListener('click', () => {
-    //     // Prompt for title/description, then call this.addProject()
-    //     this.addProject('New Project Title', 'New project description');
-    //   });
-    // }
-    const handleTodoClick = (todo) => {
-      console.log('Todo Clicked:', todo.id);
-      this.#uiManager.getModalRenderer(todo, contentContainer).showEditModal(() => {
-        this.#uiManager.clearElement(contentMain);
-        this.#todoRenderer.renderTodoList(firstp.todos);
-        // console.log(firstp.todos)
+    const addProjectButton = document.querySelector('#add-project-btn');
+    if (addProjectButton) {
+      addProjectButton.addEventListener('click', () => {
+        //TODO: open modal for new project
+        this.addProject('New Project Title', 'New project description');
       });
     }
+    // const handleTodoClick = (todo) => {
+    //   console.log('Todo Clicked:', todo.id);
+    //   this.#uiManager.getModalRenderer(todo, contentContainer).showEditModal(() => {
+    //     this.#uiManager.clearElement(contentMain);
+    //     this.#todoRenderer.renderTodoList(firstp.todos);
+    //     // console.log(firstp.todos)
+    //   });
+    // }
 
     // Example: Event listeners for project list items to switch active project
     // This would typically be handled by the ProjectRenderer if it creates the elements
@@ -167,6 +167,21 @@ class AppController {
     }
     console.warn('No active project to add todo to.');
     return null;
+  }
+
+  openAddProjectModal() {
+    const contentContainer = document.querySelector('.content'); // Or wherever your modals should attach
+    // Note: The ModalRenderer constructor currently expects a Todo object.
+    // You might need to refactor ModalRenderer to not strictly require a todo for project modals,
+    // or pass a dummy/null todo if it only needs the parent element and UIManager.
+    // For now, let's assume it can accept null for the todo if only parent and uiManager are needed.
+    const modalRendererForProject = this.#uiManager.getModalRenderer(null, contentContainer);
+
+    modalRendererForProject.showNewProjectModal((name, description) => {
+      // This is the callback from the modal, handling the actual project creation
+      this.addProject(name, description);
+      console.log(`New project added: ${name}, ${description}`);
+    });
   }
 
   // TODO: Add methods for editTodo, removeTodo similar to the above
