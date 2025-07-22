@@ -10,6 +10,7 @@ class AppController {
   #todoRenderer;
   #projectManager;
   #appContainer;
+  #contentHeader;
   #contentMain;
   #sidebarListsBody;
   #currentActiveProject; // To keep track of which project's todos are currently displayed
@@ -25,6 +26,7 @@ class AppController {
     // Get DOM elements for rendering
     this.#sidebarListsBody = document.querySelector('.sidebar-lists-body');
     this.#contentMain = document.querySelector('.content-main');
+    this.#contentHeader = document.querySelector('.content-head');
 
     // Initialize TodoRenderer, passing a bound method for todo clicks
     this.#todoRenderer = new TodoRenderer(this.#uiManager, this.#contentMain, this.handleTodoClick.bind(this));
@@ -86,8 +88,6 @@ class AppController {
     //clear existing project list
     this.#uiManager.clearElement(this.#sidebarListsBody);
     this.#projectRenderer.renderProjectList(this.#sidebarListsBody, this.#projectManager.projects);
-    // Potentially add event listeners to newly rendered project items here
-    // Or ensure ProjectRenderer attaches listeners that call selectProject()
   }
 
   /**
@@ -98,8 +98,32 @@ class AppController {
     this.#uiManager.clearElement(this.#contentMain); // Clear existing todos
     this.#todoRenderer.renderTodoList(project.todos);
     this.#currentActiveProject = project; // Update active project
-    // You might also want to update the content header to show the project title
-    console.log(`Displaying todos for project: ${project.title}`);
+    console.log(`Displaying todos for project: ${project.name}`);
+
+    const headerProjectDiv = this.#uiManager.addElement('div', this.#contentHeader, 'project-header');
+
+    const headerTitle = this.#uiManager.addElement('h1', headerProjectDiv, 'project-name');
+    const headerDescription = this.#uiManager.addElement('span', headerProjectDiv, 'project-description');
+    if (headerTitle instanceof HTMLHeadingElement) {
+      headerTitle.textContent = project.name;
+    }
+    if (headerDescription instanceof HTMLSpanElement) {
+      headerDescription.textContent = project.description;
+    }
+    // Optionally, you could also render a button to add new todos
+    const addTodoButton = this.#uiManager.addElement('button', this.#contentHeader, 'add-todo-btn');
+    if (addTodoButton instanceof HTMLButtonElement) {
+      addTodoButton.textContent = 'Add Todo';
+      addTodoButton.addEventListener('click', () => {
+        // Open modal to add new todo
+        const contentContainer = document.querySelector('.content'); // Parent element for the modal
+        this.#uiManager.getModalRenderer(null, contentContainer).showNewTodoModal((title, description, dueDate, priority) => {
+          this.addTodoToActiveProject(title, description, dueDate, priority);
+        });
+      });
+    }
+    
+
   }
 
   /**
