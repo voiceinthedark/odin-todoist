@@ -2,6 +2,7 @@ import UIManager from "./UI/uimanager";
 import projectManager from "./projectmanager";
 import ProjectRenderer from "./UI/projectrenderer";
 import TodoRenderer from "./UI/todorenderer";
+import ModalRenderer from "./UI/modalRenderer";
 
 class AppController {
   #uiManager;
@@ -10,17 +11,19 @@ class AppController {
   #projectManager;
   #appContainer;
   #contentMain;
-  #sidebarLists;
+  #sidebarListsBody;
   #currentActiveProject; // To keep track of which project's todos are currently displayed
+  #modalRenderer;
 
   constructor(appContainer) {
     this.#appContainer = appContainer;
     this.#projectManager = projectManager; // Using the singleton projectManager
     this.#uiManager = new UIManager(appContainer);
     this.#projectRenderer = new ProjectRenderer(this.#uiManager);
+    this.#modalRenderer = new ModalRenderer(this.#uiManager);
 
     // Get DOM elements for rendering
-    this.#sidebarLists = document.querySelector('.sidebar-lists');
+    this.#sidebarListsBody = document.querySelector('.sidebar-lists-body');
     this.#contentMain = document.querySelector('.content-main');
 
     // Initialize TodoRenderer, passing a bound method for todo clicks
@@ -56,8 +59,10 @@ class AppController {
     const addProjectButton = document.querySelector('#add-project-btn');
     if (addProjectButton) {
       addProjectButton.addEventListener('click', () => {
+
         //TODO: open modal for new project
-        this.addProject('New Project Title', 'New project description');
+        this.openAddProjectModal();
+        // this.addProject('New Project Title', 'New project description');
       });
     }
     // const handleTodoClick = (todo) => {
@@ -78,7 +83,9 @@ class AppController {
    * Renders the list of projects in the sidebar.
    */
   renderProjects() {
-    this.#projectRenderer.renderProjectList(this.#sidebarLists, this.#projectManager.projects);
+    //clear existing project list
+    this.#uiManager.clearElement(this.#sidebarListsBody);
+    this.#projectRenderer.renderProjectList(this.#sidebarListsBody, this.#projectManager.projects);
     // Potentially add event listeners to newly rendered project items here
     // Or ensure ProjectRenderer attaches listeners that call selectProject()
   }
@@ -171,10 +178,6 @@ class AppController {
 
   openAddProjectModal() {
     const contentContainer = document.querySelector('.content'); // Or wherever your modals should attach
-    // Note: The ModalRenderer constructor currently expects a Todo object.
-    // You might need to refactor ModalRenderer to not strictly require a todo for project modals,
-    // or pass a dummy/null todo if it only needs the parent element and UIManager.
-    // For now, let's assume it can accept null for the todo if only parent and uiManager are needed.
     const modalRendererForProject = this.#uiManager.getModalRenderer(null, contentContainer);
 
     modalRendererForProject.showNewProjectModal((name, description) => {

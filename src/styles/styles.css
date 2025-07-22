@@ -261,6 +261,7 @@ body {
       flex-direction: column;
       align-content: flex-start;
 
+      #add-project-form,
       #edit-todo-form {
         font-size: 110%;
         display: flex;
