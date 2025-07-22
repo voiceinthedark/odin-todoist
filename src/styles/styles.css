@@ -112,6 +112,7 @@ body {
 
           &:hover{
             background-color: rgba(255, 255, 250, 0.2);
+            cursor: pointer;
           }
 
           &>.project-name{

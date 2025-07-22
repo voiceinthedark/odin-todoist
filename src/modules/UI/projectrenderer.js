@@ -1,6 +1,7 @@
 // @ts-check
 import UIManager from "./uimanager.js";
 import Project from "../project.js";
+import TodoRenderer from "./todorenderer.js";
 
 /**
  * @class ProjectRenderer
@@ -53,6 +54,7 @@ class ProjectRenderer {
     const projectList = this.#ui.addElement('ul', projectListContainer, 'project-list-items');
     projects.forEach(project => {
       const projectItem = document.createElement('li');
+      projectItem.classList.add('project-item');
       const projectDiv = document.createElement('div');
       const projectName = this.#ui.addElement('span', projectDiv, 'project-name');
       if (projectName instanceof HTMLSpanElement) {
@@ -64,9 +66,26 @@ class ProjectRenderer {
       }
       projectItem.appendChild(projectDiv);
       projectList.appendChild(projectItem);
+      // Add a link to each project item to render its todos
+      projectItem.addEventListener('click', () => {
+        const contentMain = document.querySelector('.content-main');
+        if (!(contentMain instanceof HTMLDivElement)) {
+          console.error('Content main is not a valid HTMLDivElement');
+          return;
+        }
+        contentMain.innerHTML = ''; // Clear previous content
+        const todoRenderer = new TodoRenderer(this.#ui, contentMain, (todo) => {
+          this.#ui.getModalRenderer(todo, contentMain).showEditModal(() => {
+            todoRenderer.renderTodoList(project.todos);
+          });
+        });
+        todoRenderer.renderTodoList(project.todos);
+      });
     });
     projectListContainer.appendChild(projectList);
   }
+
+
 }
 
 /**
