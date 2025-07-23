@@ -70,6 +70,67 @@ class ModalRenderer {
 
   }
 
+  showNewTodoModal(onSubmit = (todo) => { }) {
+    const modal = this.#ui.addElement('div', this.#parentElement, 'modal');
+    if (modal instanceof HTMLDivElement) {
+      modal.classList.add('show');
+      modal.innerHTML = `
+      <div class="modal-content">
+        <span class="close"><i class="fa-solid fa-x"></i></span>
+        <h2>Add new Todo</h2>
+        <form id="add-todo-form">
+          <label for="todo-title">Title:</label>
+          <input type="text" id="todo-title" name="title" required>
+          <label for="todo-description">Description:</label>
+          <textarea id="todo-description" name="description" rows="5"></textarea>
+          <label for="todo-due-date">Due Date:</label>
+          <input type="datetime-local" id="todo-due-date" name="dueDate">
+          <label for="todo-priority">Priority:</label>
+          <select id="todo-priority" name="priority">
+            <option value="1">Lowest</option>
+            <option value="2">Low</option>
+            <option value="3">Medium</option>
+            <option value="4">High</option>
+          </select>
+          <button type="submit">Save</button>
+        </form>
+      </div>`;
+
+      const closeButton = modal.querySelector('.close');
+      closeButton?.addEventListener('click', () => {
+        modal.classList.remove('show');
+        modal.classList.add('hide');
+      });
+      const addTodoForm = modal.querySelector('#add-todo-form');
+      if (addTodoForm instanceof HTMLFormElement) {
+        addTodoForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+
+          const formData = new FormData(addTodoForm);
+          const title = formData.get('title')?.toString() || '';
+          const description = formData.get('description')?.toString() || '';
+          const dueDateString = formData.get('dueDate');
+          const dueDate = typeof dueDateString === 'string' && dueDateString.length > 0 ? new Date(dueDateString) : new Date();
+          const priorityString = formData.get('priority');
+          const priority = typeof priorityString === 'string' ? parseInt(priorityString, 10) : 3; // Default to Medium if not provided
+          console.log(`Creating new Todo with title: ${title}, description: ${description}, dueDate: ${dueDate}, priority: ${priority}`);
+
+          // Create a new Todo object
+          const todo = new Todo(title, description, dueDate, priority);
+
+          // Call the onSubmit function with the new todo
+          onSubmit(todo);
+
+          // Close the modal
+          modal.classList.remove('show');
+          modal.classList.add('hide');
+        });
+      }
+    }
+  }
+
+      
+
   /**
    * @method showEditModal to show the modal ui
    * @param {Function} onUpdate
@@ -93,7 +154,7 @@ class ModalRenderer {
           <label for="todo-description">Description:</label>
           <textarea id="todo-description" name="description" rows="5">${this.#todo.description}</textarea>
           <label for="todo-due-date">Due Date:</label>
-          <input type="datetime-local" id="todo-due-date" name="dueDate" value="${format(this.#todo.dueDate, `yyyy-MM-dd'T'HH:mm`)}">
+          <input type="datetime-local" id="todo-due-date" name="dueDate" value="${(this.#todo.dueDate, `yyyy-MM-dd'T'HH:mm`)}">
           <label for="todo-priority">Priority:</label>
           <select id="todo-priority" name="priority">
             <option value="1" ${this.#todo.priority === 1 ? 'selected' : ''}>Lowest</option>
@@ -127,7 +188,7 @@ class ModalRenderer {
           for (const pair of formData.entries()) {
             console.log(`${pair[0]}: ${pair[1]}`);
           }
-          if(!this.#todo){
+          if (!this.#todo) {
             console.error('ModalRenderer: todo object is null or undefined')
             return;
           }

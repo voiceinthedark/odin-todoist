@@ -49,12 +49,13 @@ class ProjectRenderer {
    * @param {Node} parentElement - parent element node where the list should be displayed under
    * @param {Array<Project>} projects - An array of project elements 
    * */
-  renderProjectList(parentElement, projects) {
+  renderProjectList(parentElement, projects, onProjectClickCallback) {
     const projectListContainer = this.#ui.addElement('div', parentElement, 'project-list');
     const projectList = this.#ui.addElement('ul', projectListContainer, 'project-list-items');
     projects.forEach(project => {
       const projectItem = document.createElement('li');
       projectItem.classList.add('project-item');
+      projectItem.dataset.projectId = project.id;
       const projectDiv = document.createElement('div');
       const projectName = this.#ui.addElement('span', projectDiv, 'project-name');
       if (projectName instanceof HTMLSpanElement) {
@@ -68,18 +69,17 @@ class ProjectRenderer {
       projectList.appendChild(projectItem);
       // Add a link to each project item to render its todos
       projectItem.addEventListener('click', () => {
-        const contentMain = document.querySelector('.content-main');
-        if (!(contentMain instanceof HTMLDivElement)) {
-          console.error('Content main is not a valid HTMLDivElement');
-          return;
-        }
-        contentMain.innerHTML = ''; // Clear previous content
-        const todoRenderer = new TodoRenderer(this.#ui, contentMain, (todo) => {
-          this.#ui.getModalRenderer(todo, contentMain).showEditModal(() => {
-            todoRenderer.renderTodoList(project.todos);
-          });
+        // Remove 'active' class from all other project items
+        document.querySelectorAll('.project-item').forEach(item => {
+          item.classList.remove('active');
         });
-        todoRenderer.renderTodoList(project.todos);
+        // Add 'active' class to the clicked item
+        projectItem.classList.add('active');
+
+        // Delegate the actual content rendering to the AppController
+        if (typeof onProjectClickCallback === 'function') {
+          onProjectClickCallback(project);
+        }
       });
     });
     projectListContainer.appendChild(projectList);
