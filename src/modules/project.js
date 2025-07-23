@@ -15,9 +15,10 @@ class Project {
    * class Project, containst list of todos associated wit the project
    * @param {string} name - name of the project
    * @param {string} description - description of the project
+   * @param {string | null} [id=null] 
    * */
-  constructor(name, description) {
-    this.#id = uuidv4();
+  constructor(name, description, id = null) {
+    this.#id = id || uuidv4();
     this.#name = name;
     this.#description = description;
     this.#todoManager = new TodoManager([]);
@@ -53,19 +54,28 @@ class Project {
   }
 
 
-  /**
-   * function addTodo - adds a todo associated with the current project   
-   * @param {string} title 
-   * @param {string} description 
-   * @param {Date} dueDate 
-   * @param {number} priority 
-   * @param {boolean} [status=false] - todo status (default false)
-   * @param {string} [notes='']
-   * @param {[]} [checklist = []] - an array of checklist items
-   * @returns {Todo} 
-   * */
-  addTodo(title, description, dueDate, priority, status = false, notes = '', checklist = []) {
-    return this.#todoManager.addTodo(title, description, dueDate, priority, status, notes, checklist);
+ /**
+  * function addTodo - adds a todo associated with the current project
+  * @param {Object} todoData - Todo data object
+  * @param {string} todoData.title - Todo title
+  * @param {string} todoData.description - Todo description
+  * @param {Date} todoData.dueDate - Due date
+  * @param {number} todoData.priority - Priority level
+  * @param {boolean} [todoData.status=false] - Completion status
+  * @param {string} [todoData.notes=''] - Additional notes
+  * @param {Array} [todoData.checklist=[]] - Checklist items
+  * @returns {Todo}
+  * */
+ addTodo(todoData) {
+    return this.#todoManager.addTodo(
+      todoData.title,
+      todoData.description,
+      todoData.dueDate,
+      todoData.priority,
+      todoData.status || false,
+      todoData.notes || '',
+      todoData.checklist || []
+    );
   }
 
   /**
@@ -85,7 +95,7 @@ class Project {
       id: this.#id,
       name: this.#name,
       description: this.#description,
-      todos: this.#todoManager.todos.map(todo => todo.toJSON ? todo.toJSON() : todo),
+      todos: this.#todoManager.todos.map(todo => todo.toJSON()),
 
     }
   }
