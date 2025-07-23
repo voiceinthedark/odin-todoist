@@ -61,20 +61,10 @@ class AppController {
     const addProjectButton = document.querySelector('#add-project-btn');
     if (addProjectButton) {
       addProjectButton.addEventListener('click', () => {
-
-        //TODO: open modal for new project
         this.openAddProjectModal();
         // this.addProject('New Project Title', 'New project description');
       });
     }
-    // const handleTodoClick = (todo) => {
-    //   console.log('Todo Clicked:', todo.id);
-    //   this.#uiManager.getModalRenderer(todo, contentContainer).showEditModal(() => {
-    //     this.#uiManager.clearElement(contentMain);
-    //     this.#todoRenderer.renderTodoList(firstp.todos);
-    //     // console.log(firstp.todos)
-    //   });
-    // }
 
     // Example: Event listeners for project list items to switch active project
     // This would typically be handled by the ProjectRenderer if it creates the elements
@@ -87,7 +77,17 @@ class AppController {
   renderProjects() {
     //clear existing project list
     this.#uiManager.clearElement(this.#sidebarListsBody);
-    this.#projectRenderer.renderProjectList(this.#sidebarListsBody, this.#projectManager.projects);
+    this.#projectRenderer.renderProjectList(this.#sidebarListsBody, this.#projectManager.projects, this.handleProjectClick.bind(this));
+
+  }
+
+  /**
+     * Handles click event on a project in the sidebar.
+     * @param {Project} project - The project object that was clicked.
+     */
+  handleProjectClick(project) {
+    console.log('Project clicked in controller:', project.name);
+    this.renderTodosForProject(project); // This will update the content header and todos
   }
 
   /**
@@ -96,6 +96,7 @@ class AppController {
    */
   renderTodosForProject(project) {
     this.#uiManager.clearElement(this.#contentMain); // Clear existing todos
+    this.#uiManager.clearElement(this.#contentHeader);
     this.#todoRenderer.renderTodoList(project.todos);
     this.#currentActiveProject = project; // Update active project
     console.log(`Displaying todos for project: ${project.name}`);
@@ -122,7 +123,7 @@ class AppController {
         });
       });
     }
-    
+
 
   }
 
@@ -133,16 +134,30 @@ class AppController {
   handleTodoClick(todo) {
     console.log('Todo clicked in controller:', todo.id);
     const contentContainer = document.querySelector('.content'); // Parent element for the modal
-    this.#uiManager.getModalRenderer(todo, contentContainer).showEditModal((updatedTodo) => {
-      console.log('Todo updated in modal, refreshing UI:', updatedTodo);
+    this.#uiManager.getModalRenderer(todo, contentContainer).showEditModal((updatedTodoData) => { // Renamed parameter for clarity
+      console.log('Todo updated in modal, refreshing UI:', updatedTodoData);
       // After updating, re-render the todos for the currently displayed project
       if (this.#currentActiveProject) {
-        // Ensure the updatedTodo's project matches the current active project,
-        // or refetch the specific todo from the current project to ensure consistency.
-        // For simplicity, we just re-render the entire active project's todo list.
+        const projectToUpdate = this.#projectManager.getProjectById(this.#currentActiveProject.id);
+        if (projectToUpdate) {
+          const todoToModify = projectToUpdate.todos.find(t => t.id === updatedTodoData.id);
+          if (todoToModify) {
+            // Explicitly update properties to prevent malformed data assignment.
+            // Ensure title remains a string and handle Date conversion for dueDate.
+            todoToModify.title = typeof updatedTodoData.title === 'string' ? updatedTodoData.title : todoToModify.title;
+            todoToModify.description = updatedTodoData.description;
+            todoToModify.dueDate = updatedTodoData.dueDate instanceof Date ? updatedTodoData.dueDate : (updatedTodoData.dueDate ? new Date(updatedTodoData.dueDate) : null);
+            todoToModify.priority = updatedTodoData.priority;
+            todoToModify.status = updatedTodoData.status;
+            todoToModify.notes = updatedTodoData.notes;
+            todoToModify.checklist = updatedTodoData.checklist;
+
+            // Persist the changes
+            this.#projectManager.saveProjects();
+          }
+        }
         this.renderTodosForProject(this.#currentActiveProject);
       }
-      // TODO: Potentially persist data to localStorage here or in projectManager
     });
   }
 
@@ -192,8 +207,8 @@ class AppController {
   addTodoToActiveProject(title, description, dueDate, priority) {
     if (this.#currentActiveProject) {
       const newTodo = this.#currentActiveProject.addTodo(title, description, dueDate, priority);
+      this.#projectManager.saveProjects();
       this.renderTodosForProject(this.#currentActiveProject); // Re-render todos for the active project
-      // TODO: Persist data
       return newTodo;
     }
     console.warn('No active project to add todo to.');

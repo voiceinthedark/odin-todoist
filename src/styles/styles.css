@@ -1,4 +1,13 @@
 @font-face {
+  font-family: 'lato';
+  src: url('../assets/fonts/Lato-Regular.ttf') format('truetype'), url('../assets/fonts/Lato-Bold.ttf') format('truetype'),
+    url('../assets/fonts/Lato-Italic.ttf') format('truetype');
+  font-weight: 400, 700, 400;
+  font-style: normal, normal, italic;
+
+}
+
+@font-face {
   font-family: 'Font Awesome 6 Free';
   src: url('../assets/fonts/fa-solid-900.ttf') format('truetype');
   font-weight: 900;
@@ -33,6 +42,7 @@ body {
   padding: 0;
   height: 100vh;
   color: var(--color-main);
+  font-family: 'lato', sans-serif;
   font-size: 16px;
 }
 
@@ -55,9 +65,12 @@ body {
     /* grid-template-areas: "head" */
     /*   "options" */
     /*   "lists"; */
+    border-right: 1px solid rgba(255, 255, 250, 0.2);
 
     &>.sidebar-head {
       font-size: 150%;
+      padding-left: 10px;
+      margin-top: -10px;
       /* grid-area: head; */
     }
 
@@ -147,10 +160,9 @@ body {
           &>.project-todos-count {
             font-size: 80%;
             border-radius: 50%;
-            font-weight: 300;
             border: 1px solid var(--bg-color-secondary);
             background-color: var(--bg-color-tertiary);
-            padding: 2px 8px;
+            padding: 4px 8px;
           }
 
         }
@@ -170,21 +182,23 @@ body {
     height: 100%;
     margin-top: 20px;
 
-    .content-head{
+    .content-head {
       display: flex;
       justify-content: space-between;
       width: 50%;
 
-      .project-header{
+      .project-header {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
-        &>h1{
+
+        &>h1 {
           font-size: 150%;
           line-height: 0.2;
         }
-        &>span{
+
+        &>span {
           font-size: 80%;
           color: var(--color-grayish);
           line-height: 0.5;
