@@ -1,5 +1,8 @@
 // @ts-check
 import Project from './project.js';
+import Todo from './todo.js';
+import storageManager from './todostoragemanager.js';
+
 /**
  * @class ProjectManager
  * @description Manages a collection of projects
@@ -15,6 +18,7 @@ class ProjectManager {
     * */
   constructor() {
     this.#projects = [];
+    this.loadProjects();
   }
 
   /**
@@ -27,6 +31,7 @@ class ProjectManager {
   addProject(name, description) {
     const project = new Project(name, description);
     this.#projects.push(project);
+    this.saveProjects();
     return project;
   }
 
@@ -41,6 +46,7 @@ class ProjectManager {
     this.#projects = this.#projects.filter((p) => {
       return p.id !== id;
     });
+    this.saveProjects();
     return this.#projects.length < initialLength;
   }
 
@@ -76,6 +82,48 @@ class ProjectManager {
    * */
   getProjectByName(name) {
     return this.#projects.find((p) => p.name === name);
+  }
+
+  saveProjects() {
+    const serializableProjects = this.projects.map(project => project.toJSON());
+    console.log(serializableProjects);
+    // persist data
+    storageManager.setItem('todoAppProjects', JSON.stringify(serializableProjects));
+    console.log("projects saved to localstorage");
+  }
+
+  loadProjects() {
+    const storedProjects = storageManager.getItem('todoAppProjects');
+    if (storedProjects) {
+      const parsedProjects = JSON.parse(storedProjects);
+      // Reconstruct Project and Todo instances from plain objects
+      this.projects = parsedProjects.map(projectData => {
+        const project = new Project(projectData.name, projectData.description, projectData.id);
+        project.todos = projectData.todos.map(todoData => {
+          // Defensively extract the title: if todoData.title is an object containing a 'title' property, use that.
+          // Otherwise, use todoData.title directly (assuming it's a string or null/undefined).
+          let extractedTitle = todoData.title;
+          if (typeof todoData.title === 'object' && todoData.title !== null && typeof todoData.title.title === 'string') {
+            extractedTitle = todoData.title.title;
+          }
+
+          return new Todo(
+            extractedTitle, // Use the extracted and validated title
+            todoData.description,
+            todoData.dueDate ? new Date(todoData.dueDate) : null, // Convert ISO string back to Date
+            todoData.priority,
+            todoData.status,
+            todoData.notes || '',
+            todoData.checklist || [],
+            todoData.id,
+          );
+        });
+        return project;
+      });
+      console.log('Projects loaded from localStorage.');
+    } else {
+      console.log('No projects found in localStorage.');
+    }
   }
 }
 
