@@ -16,14 +16,15 @@ class Todo {
   /**
    * @param {string} title - Todo title
    * @param {string} description - todo description
-   * @param {Date} dueDate - todo Date
+   * @param {Date | null}  dueDate - todo Date
    * @param {number} priority - todo priority 1..4
    * @param {boolean} [status=false] -  todo status (default false)
    * @param {string} [notes=''] - notes (default none)
-   * @param {[]} [checklist = []] - checklist options (default none)
+   * @param {any[]} [checklist=[]] - checklist options (default none)
+   * @param {string | null} [id=null] - Todo id (optional, generated)
    * */
-  constructor(title, description, dueDate, priority, status = false, notes = '', checklist = []) {
-    this.#id = uuidv4();
+  constructor(title, description, dueDate, priority, status = false, notes = '', checklist = [], id = null) {
+    this.#id = id || uuidv4();
     this.#title = title;
     this.#description = description;
     this.#dueDate = dueDate;
