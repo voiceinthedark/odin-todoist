@@ -1,5 +1,6 @@
 // @ts-check
 import Todo from "../todo.js";
+import Project from "../project.js";
 import ModalRenderer from "./modalRenderer.js";
 
 class UIManager {
@@ -67,9 +68,11 @@ class UIManager {
    * @method to get the modal renderer for a todo item
    * @param {Todo} todo 
    * @param {Node} parentElement 
+   * @param {Project | null} [projectItem=null] 
+   * @returns {ModalRenderer} A new ModalRenderer instance.
    * */
-  getModalRenderer(todo, parentElement){
-    return new ModalRenderer(todo, parentElement, this);
+  getModalRenderer(todo, parentElement, projectItem = null){
+    return new ModalRenderer(todo, projectItem, parentElement, this);
   }
 
   get container(){

@@ -1,6 +1,7 @@
 // @ts-check
 import UIManager from "./uimanager.js";
 import Todo from "../todo.js";
+import Project from "../project.js";
 import { format } from "date-fns";
 
 /**
@@ -11,18 +12,25 @@ class ModalRenderer {
   #parentElement;
   #ui;
   #todo;
+  #project;
   /**
    * @constructor
    * @param {Todo | null | undefined} todo 
+   * @param {Project | null | undefined} project
    * @param {Node} parentElement 
    * @param {UIManager} uiManager
    * */
-  constructor(todo = null, parentElement, uiManager) {
+  constructor(todo = null, project = null, parentElement, uiManager) {
     this.#todo = todo;
+    this.#project = project;
     this.#ui = uiManager;
     this.#parentElement = parentElement;
   }
 
+  /**
+   * @method - show new project modal
+   * @param {(name: string, description: string) => void} [onSubmit=(name, description) => { }] 
+   * */
   showNewProjectModal(onSubmit = (name, description) => { }) {
     const modal = this.#ui.addElement('div', this.#parentElement, 'modal');
     if (modal instanceof HTMLDivElement) {
@@ -64,12 +72,59 @@ class ModalRenderer {
           modal.classList.add('hide');
         });
       }
-
-
     }
-
   }
 
+  /**
+   * @method - show the edit project modal
+   * @param {(name: string, description: string) => void} [onEdit=(name, description) => {}] 
+   * */
+  showEditProjectModal(onEdit = (name, description) => { }) {
+    const modal = this.#ui.addElement('div', this.#parentElement, 'modal');
+    if (modal instanceof HTMLDivElement) {
+      modal.classList.add('show');
+      modal.innerHTML = `
+      <div class="modal-content">
+        <span class="close"><i class="fa-solid fa-x"></i></span>
+        <h2>Edit Project</h2>
+        <form id="edit-project-form">
+          <label for="project-name">Name:</label>
+          <input type="text" id="project-name" name="name" value="${this.#project?.name}" required>
+          <label for="project-description">Description:</label>
+          <textarea id="project-description" name="description" rows="5">${this.#project?.description}</textarea>
+          <button type="submit">Save</button>
+        </form>
+      </div>`;
+      const closeButton = modal.querySelector('.close');
+      closeButton?.addEventListener('click', () => {
+        modal.classList.remove('show');
+        modal.classList.add('hide');
+      });
+
+      const editProjectForm = modal.querySelector('#edit-project-form');
+      if (editProjectForm instanceof HTMLFormElement) {
+        editProjectForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+
+          const formData = new FormData(editProjectForm);
+          const name = formData.get('name')?.toString() || '';
+          const description = formData.get('description')?.toString() || '';
+
+          onEdit(name, description);
+
+          // Close the modal
+          modal.classList.remove('show');
+          modal.classList.add('hide');
+        });
+
+      }
+    }
+  }
+
+  /**
+   * @method - show new todo modal
+   * @param {(todo: Todo) => void} [onSubmit=(todo) => { }] 
+   * */
   showNewTodoModal(onSubmit = (todo) => { }) {
     const modal = this.#ui.addElement('div', this.#parentElement, 'modal');
     if (modal instanceof HTMLDivElement) {
@@ -129,7 +184,7 @@ class ModalRenderer {
     }
   }
 
-      
+
 
   /**
    * @method showEditModal to show the modal ui
@@ -144,7 +199,7 @@ class ModalRenderer {
 
     if (modal instanceof HTMLDivElement) {
       modal.classList.add('show');
-      if(this.#todo.dueDate === null){
+      if (this.#todo.dueDate === null) {
         this.#todo.dueDate = new Date();
       }
       modal.innerHTML = `

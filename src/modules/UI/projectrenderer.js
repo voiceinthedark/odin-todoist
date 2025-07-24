@@ -49,8 +49,9 @@ class ProjectRenderer {
    * @param {Node} parentElement - parent element node where the list should be displayed under
    * @param {Array<Project>} projects - An array of project elements 
    * @param {Function} onProjectClickCallback - callback function to handle project click events. 
+   * @param {Function} onEditClickCallback - callback function to handle the edit button
    * */
-  renderProjectList(parentElement, projects, onProjectClickCallback) {
+  renderProjectList(parentElement, projects, onProjectClickCallback, onEditClickCallback) {
     const projectListContainer = this.#ui.addElement('div', parentElement, 'project-list');
     const projectList = this.#ui.addElement('ul', projectListContainer, 'project-list-items');
     projects.forEach(project => {
@@ -66,10 +67,29 @@ class ProjectRenderer {
       if (projectTodosCount instanceof HTMLSpanElement) {
         projectTodosCount.textContent = `${project.todos.length}`;
       }
+
+      // add edit button
+      const projectEditButton = this.#ui.addElement('i', projectDiv, 'project-edit-btn');
+      if (projectEditButton instanceof HTMLElement) {
+        projectEditButton.style.visibility = 'hidden';
+        projectEditButton.style.opacity = '0';
+        projectEditButton.classList.add('fa-solid');
+        projectEditButton.classList.add('fa-pen-to-square');
+      }
+
+      projectEditButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+
+        if(typeof onEditClickCallback === 'function'){
+          console.log('in edit')
+          onEditClickCallback(project);
+        }
+      });
+
       projectItem.appendChild(projectDiv);
       projectList.appendChild(projectItem);
       // set default project item as active
-      if(projects.indexOf(project) === 0){
+      if (projects.indexOf(project) === 0) {
         projectItem.classList.add('active');
       }
       // Add a link to each project item to render its todos
@@ -84,6 +104,19 @@ class ProjectRenderer {
         // Delegate the actual content rendering to the AppController
         if (typeof onProjectClickCallback === 'function') {
           onProjectClickCallback(project);
+        }
+      });
+
+      projectItem.addEventListener('mouseenter', () => {
+        if(projectEditButton instanceof HTMLElement){
+          projectEditButton.style.visibility = 'visible';
+          projectEditButton.style.opacity = '1';
+        }
+      });
+      projectItem.addEventListener('mouseleave', () => {
+        if(projectEditButton instanceof HTMLElement){
+          projectEditButton.style.visibility = 'hidden';
+          projectEditButton.style.opacity = '0';
         }
       });
     });

@@ -21,7 +21,7 @@ class AppController {
     this.#projectManager = projectManager; // Using the singleton projectManager
     this.#uiManager = new UIManager(appContainer);
     this.#projectRenderer = new ProjectRenderer(this.#uiManager);
-    this.#modalRenderer = new ModalRenderer(this.#uiManager);
+    // this.#modalRenderer = new ModalRenderer(this.#uiManager);
 
     // Get DOM elements for rendering
     this.#sidebarListsBody = document.querySelector('.sidebar-lists-body');
@@ -29,10 +29,10 @@ class AppController {
     this.#contentHeader = document.querySelector('.content-head');
 
     // Initialize TodoRenderer, passing a bound method for todo clicks
-    this.#todoRenderer = new TodoRenderer(this.#uiManager, 
-      this.#contentMain, 
-      this.handleTodoClick.bind(this), 
-      this.handleTodoStatusChange.bind(this), 
+    this.#todoRenderer = new TodoRenderer(this.#uiManager,
+      this.#contentMain,
+      this.handleTodoClick.bind(this),
+      this.handleTodoStatusChange.bind(this),
       this.removeTodo.bind(this));
 
     this.init();
@@ -67,6 +67,8 @@ class AppController {
         this.openAddProjectModal();
       });
     }
+
+    // Edit project button
   }
 
   /**
@@ -75,7 +77,10 @@ class AppController {
   renderProjects() {
     //clear existing project list
     this.#uiManager.clearElement(this.#sidebarListsBody);
-    this.#projectRenderer.renderProjectList(this.#sidebarListsBody, this.#projectManager.projects, this.handleProjectClick.bind(this));
+    this.#projectRenderer.renderProjectList(this.#sidebarListsBody,
+      this.#projectManager.projects,
+      this.handleProjectClick.bind(this),
+      this.handleEditProjectClick.bind(this));
 
   }
 
@@ -228,13 +233,36 @@ class AppController {
       console.log(`New project added: ${name}, ${description}`);
     });
   }
-  // TODO: Add methods for editTodo, removeTodo similar to the above
+
+  handleEditProjectClick(projectToEdit) {
+    console.log('Attempting to edit project:', projectToEdit.name);
+    const contentContainer = document.querySelector('.content'); // Parent element for the modal
+
+    // Pass the actual project to the UIManager, so it can then pass it to ModalRenderer
+    const modalRendererForProject = this.#uiManager.getModalRenderer(null, contentContainer, projectToEdit);
+
+    modalRendererForProject.showEditProjectModal((newName, newDescription) => {
+      // Update the properties of the project object
+      projectToEdit.name = newName;
+      projectToEdit.description = newDescription;
+
+      this.#projectManager.saveProjects(); // Persist the changes
+
+      // Re-render affected parts of the UI
+      this.renderProjects(); // Refresh sidebar project list (in case name changed)
+      if (this.#currentActiveProject && this.#currentActiveProject.id === projectToEdit.id) {
+        this.renderTodosForProject(projectToEdit); // Refresh header and todos if it's the active project
+      }
+      console.log(`Project "${projectToEdit.name}" updated.`);
+    });
+
+  }
 
   /**
    * @method - remove a todo from the list
    * param {string} id - id of the todo to be removed
    * */
-  removeTodo(id){
+  removeTodo(id) {
     if (this.#currentActiveProject) {
       this.#currentActiveProject.removeTodo(id);
       this.#projectManager.saveProjects();
@@ -243,6 +271,7 @@ class AppController {
       console.warn('No active project to remove todo from.');
     }
   }
+  
 }
 
 export default AppController;
