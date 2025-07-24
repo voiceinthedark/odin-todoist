@@ -144,6 +144,9 @@ class ModalRenderer {
 
     if (modal instanceof HTMLDivElement) {
       modal.classList.add('show');
+      if(this.#todo.dueDate === null){
+        this.#todo.dueDate = new Date();
+      }
       modal.innerHTML = `
       <div class="modal-content">
         <span class="close"><i class="fa-solid fa-x"></i></span>
@@ -154,7 +157,7 @@ class ModalRenderer {
           <label for="todo-description">Description:</label>
           <textarea id="todo-description" name="description" rows="5">${this.#todo.description}</textarea>
           <label for="todo-due-date">Due Date:</label>
-          <input type="datetime-local" id="todo-due-date" name="dueDate" value="${(this.#todo.dueDate, `yyyy-MM-dd'T'HH:mm`)}">
+          <input type="datetime-local" id="todo-due-date" name="dueDate" value="${format(this.#todo.dueDate, `yyyy-MM-dd'T'HH:mm`)}">
           <label for="todo-priority">Priority:</label>
           <select id="todo-priority" name="priority">
             <option value="1" ${this.#todo.priority === 1 ? 'selected' : ''}>Lowest</option>

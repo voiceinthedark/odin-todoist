@@ -48,6 +48,7 @@ class ProjectRenderer {
    * @method
    * @param {Node} parentElement - parent element node where the list should be displayed under
    * @param {Array<Project>} projects - An array of project elements 
+   * @param {Function} onProjectClickCallback - callback function to handle project click events. 
    * */
   renderProjectList(parentElement, projects, onProjectClickCallback) {
     const projectListContainer = this.#ui.addElement('div', parentElement, 'project-list');
@@ -67,6 +68,10 @@ class ProjectRenderer {
       }
       projectItem.appendChild(projectDiv);
       projectList.appendChild(projectItem);
+      // set default project item as active
+      if(projects.indexOf(project) === 0){
+        projectItem.classList.add('active');
+      }
       // Add a link to each project item to render its todos
       projectItem.addEventListener('click', () => {
         // Remove 'active' class from all other project items

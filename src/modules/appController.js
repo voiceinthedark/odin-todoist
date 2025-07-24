@@ -65,10 +65,6 @@ class AppController {
         // this.addProject('New Project Title', 'New project description');
       });
     }
-
-    // Example: Event listeners for project list items to switch active project
-    // This would typically be handled by the ProjectRenderer if it creates the elements
-    // and attaches listeners, then calls a method on this controller.
   }
 
   /**

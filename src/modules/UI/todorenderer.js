@@ -8,9 +8,11 @@ class TodoRenderer {
   #ui;
   #onTodoClick;
   /**
-   * @param {UIManager} uiManager 
-   * @param {Node} parent 
-   * @param {Function} onTodoClick
+   * @class
+   * @classdesc A renderer for Todo objects
+   * @param {UIManager} uiManager - instance of UIManager to perform DOM
+   * @param {Node} parent - parent element of the todo card
+   * @param {Function} onTodoClick - callback function to handle click events on the todo item
    * */
   constructor(uiManager, parent, onTodoClick) {
     this.#parentElement = parent;
@@ -19,7 +21,9 @@ class TodoRenderer {
   }
 
   /**
+   * @method
    * @param {Todo} todo - the todo item to be rendered
+   * @description Renders a single todo card to the parent element.
    * */
   renderTodo(todo) {
     const todoCard = this.#ui.addElement('div', this.#parentElement, 'todo-card');
@@ -90,8 +94,9 @@ class TodoRenderer {
   }
 
   /**
-   * Renders a list of todos
+   * @method
    * @param {Todo[]} todos - an array of Todo objects
+   * @description Renders a list of todos
    */
   renderTodoList(todos) {
     if (!Array.isArray(todos)) {
