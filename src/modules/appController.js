@@ -80,7 +80,8 @@ class AppController {
     this.#projectRenderer.renderProjectList(this.#sidebarListsBody,
       this.#projectManager.projects,
       this.handleProjectClick.bind(this),
-      this.handleEditProjectClick.bind(this));
+      this.handleEditProjectClick.bind(this),
+      this.handleDeleteProjectClick.bind(this));
   }
 
   /**
@@ -248,13 +249,30 @@ class AppController {
       this.#projectManager.saveProjects(); // Persist the changes
 
       // Re-render affected parts of the UI
-      this.renderProjects(); 
+      this.renderProjects();
       if (this.#currentActiveProject && this.#currentActiveProject.id === projectToEdit.id) {
         this.renderTodosForProject(projectToEdit); // Refresh header and todos if it's the active project
       }
       console.log(`Project "${projectToEdit.name}" updated.`);
     });
 
+  }
+
+  /**
+  * @method to delete the project
+  * @param {string} projectToDelete 
+  */
+  handleDeleteProjectClick(projectToDelete) {
+    const project = this.#projectManager.getProjectById(projectToDelete);
+    console.log('Attempting to delete project:', project.name);
+
+    this.removeProject(projectToDelete);
+    console.log(`Project "${project.name}" deleted.`);
+    this.#projectManager.saveProjects();
+    this.renderProjects();
+    if (this.#currentActiveProject && this.#currentActiveProject.id === projectToDelete) {
+      this.renderTodosForProject(this.#projectManager.projects[0]); 
+    }
   }
 
   /**
@@ -270,7 +288,7 @@ class AppController {
       console.warn('No active project to remove todo from.');
     }
   }
-  
+
 }
 
 export default AppController;

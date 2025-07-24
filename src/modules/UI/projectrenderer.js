@@ -50,8 +50,9 @@ class ProjectRenderer {
    * @param {Array<Project>} projects - An array of project elements 
    * @param {Function} onProjectClickCallback - callback function to handle project click events. 
    * @param {Function} onEditClickCallback - callback function to handle the edit button
+   * @param {Function} onDeleteClickCallback - callback function to handle the delete event
    * */
-  renderProjectList(parentElement, projects, onProjectClickCallback, onEditClickCallback) {
+  renderProjectList(parentElement, projects, onProjectClickCallback, onEditClickCallback, onDeleteClickCallback) {
     const projectListContainer = this.#ui.addElement('div', parentElement, 'project-list');
     const projectList = this.#ui.addElement('ul', projectListContainer, 'project-list-items');
     projects.forEach(project => {
@@ -92,6 +93,15 @@ class ProjectRenderer {
         projectDeleteButton.style.opacity = '0';
         projectDeleteButton.classList.add('fa-solid');
         projectDeleteButton.classList.add('fa-trash');
+
+        projectDeleteButton.addEventListener('click', (event) => {
+          event.stopPropagation();
+
+          if(confirm('Are you sure you want to delete this project?')){
+            onDeleteClickCallback(project.id);
+          }
+
+        });
       }
 
       projectItem.appendChild(projectDiv);
