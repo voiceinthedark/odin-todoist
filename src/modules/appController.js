@@ -81,7 +81,6 @@ class AppController {
       this.#projectManager.projects,
       this.handleProjectClick.bind(this),
       this.handleEditProjectClick.bind(this));
-
   }
 
   /**
@@ -249,7 +248,7 @@ class AppController {
       this.#projectManager.saveProjects(); // Persist the changes
 
       // Re-render affected parts of the UI
-      this.renderProjects(); // Refresh sidebar project list (in case name changed)
+      this.renderProjects(); 
       if (this.#currentActiveProject && this.#currentActiveProject.id === projectToEdit.id) {
         this.renderTodosForProject(projectToEdit); // Refresh header and todos if it's the active project
       }

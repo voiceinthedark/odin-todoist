@@ -85,6 +85,14 @@ class ProjectRenderer {
           onEditClickCallback(project);
         }
       });
+      // add delete button
+      const projectDeleteButton = this.#ui.addElement('i', projectDiv, 'project-delete-btn');
+      if (projectDeleteButton instanceof HTMLElement) {
+        projectDeleteButton.style.visibility = 'hidden';
+        projectDeleteButton.style.opacity = '0';
+        projectDeleteButton.classList.add('fa-solid');
+        projectDeleteButton.classList.add('fa-trash');
+      }
 
       projectItem.appendChild(projectDiv);
       projectList.appendChild(projectItem);
@@ -108,15 +116,20 @@ class ProjectRenderer {
       });
 
       projectItem.addEventListener('mouseenter', () => {
-        if(projectEditButton instanceof HTMLElement){
+        if(projectEditButton instanceof HTMLElement && projectDeleteButton instanceof HTMLElement){
           projectEditButton.style.visibility = 'visible';
           projectEditButton.style.opacity = '1';
+
+          projectDeleteButton.style.visibility = 'visible';
+          projectDeleteButton.style.opacity = '1';
         }
       });
       projectItem.addEventListener('mouseleave', () => {
-        if(projectEditButton instanceof HTMLElement){
+        if(projectEditButton instanceof HTMLElement && projectDeleteButton instanceof HTMLElement){
           projectEditButton.style.visibility = 'hidden';
           projectEditButton.style.opacity = '0';
+          projectDeleteButton.style.visibility = 'hidden';
+          projectDeleteButton.style.opacity = '0';
         }
       });
     });
