@@ -111,7 +111,6 @@ class AppController {
     if (headerDescription instanceof HTMLSpanElement) {
       headerDescription.textContent = project.description;
     }
-    // Optionally, you could also render a button to add new todos
     const addTodoButton = this.#uiManager.addElement('button', this.#contentHeader, 'add-todo-btn');
     if (addTodoButton instanceof HTMLButtonElement) {
       addTodoButton.textContent = 'Add Todo';
@@ -134,7 +133,7 @@ class AppController {
   handleTodoClick(todo) {
     console.log('Todo clicked in controller:', todo.id);
     const contentContainer = document.querySelector('.content'); // Parent element for the modal
-    this.#uiManager.getModalRenderer(todo, contentContainer).showEditModal((updatedTodoData) => { // Renamed parameter for clarity
+    this.#uiManager.getModalRenderer(todo, contentContainer).showEditModal((updatedTodoData) => { 
       console.log('Todo updated in modal, refreshing UI:', updatedTodoData);
       // After updating, re-render the todos for the currently displayed project
       if (this.#currentActiveProject) {
@@ -142,8 +141,6 @@ class AppController {
         if (projectToUpdate) {
           const todoToModify = projectToUpdate.todos.find(t => t.id === updatedTodoData.id);
           if (todoToModify) {
-            // Explicitly update properties to prevent malformed data assignment.
-            // Ensure title remains a string and handle Date conversion for dueDate.
             todoToModify.title = typeof updatedTodoData.title === 'string' ? updatedTodoData.title : todoToModify.title;
             todoToModify.description = updatedTodoData.description;
             todoToModify.dueDate = updatedTodoData.dueDate instanceof Date ? updatedTodoData.dueDate : (updatedTodoData.dueDate ? new Date(updatedTodoData.dueDate) : null);
@@ -170,7 +167,6 @@ class AppController {
   addProject(title, description) {
     const newProject = this.#projectManager.addProject(title, description);
     this.renderProjects(); // Re-render the sidebar project list
-    // Optionally, set the new project as the active one and display its todos
     this.renderTodosForProject(newProject);
     return newProject;
   }
@@ -193,7 +189,6 @@ class AppController {
         this.#currentActiveProject = null;
       }
     }
-    // TODO: Persist data
   }
 
   /**
@@ -216,11 +211,10 @@ class AppController {
   }
 
   openAddProjectModal() {
-    const contentContainer = document.querySelector('.content'); // Or wherever your modals should attach
+    const contentContainer = document.querySelector('.content'); 
     const modalRendererForProject = this.#uiManager.getModalRenderer(null, contentContainer);
 
     modalRendererForProject.showNewProjectModal((name, description) => {
-      // This is the callback from the modal, handling the actual project creation
       this.addProject(name, description);
       console.log(`New project added: ${name}, ${description}`);
     });

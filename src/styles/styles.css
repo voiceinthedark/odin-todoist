@@ -160,7 +160,7 @@ body {
           &>.project-todos-count {
             font-size: 80%;
             border-radius: 50%;
-            border: 1px solid var(--bg-color-secondary);
+            border: 1px solid var(--tea-green);
             background-color: var(--bg-color-tertiary);
             padding: 4px 8px;
           }
@@ -319,6 +319,7 @@ body {
       flex-direction: column;
       align-content: flex-start;
 
+      #add-todo-form,
       #add-project-form,
       #edit-todo-form {
         font-size: 110%;
@@ -407,6 +408,10 @@ body {
 
   .close {
     cursor: pointer;
+  }
+  .active{
+    background-color: rgba(255, 255, 250, 0.2);
+    /* color: var(--bg-color-secondary); */
   }
 
 
