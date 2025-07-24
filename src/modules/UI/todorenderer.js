@@ -8,6 +8,7 @@ class TodoRenderer {
   #ui;
   #onTodoClick;
   #onTodoStatusChange;
+  #onTodoDelete;
   /**
    * @class
    * @classdesc A renderer for Todo objects
@@ -15,12 +16,14 @@ class TodoRenderer {
    * @param {Node} parent - parent element of the todo card
    * @param {Function} onTodoClick - callback function to handle click events on the todo item
    * @param {Function} onTodoStatusChange - callback function to handle click events on the todo status
+   * @param {Function} onTodoDelete - Callback function to handle delete event on the todo item
    * */
-  constructor(uiManager, parent, onTodoClick, onTodoStatusChange) {
+  constructor(uiManager, parent, onTodoClick, onTodoStatusChange, onTodoDelete) {
     this.#parentElement = parent;
     this.#ui = uiManager;
     this.#onTodoClick = onTodoClick;
     this.#onTodoStatusChange = onTodoStatusChange;
+    this.#onTodoDelete = onTodoDelete;
   }
 
   /**
@@ -90,6 +93,20 @@ class TodoRenderer {
       });
     }
 
+    // Add delete button
+    const deleteButton = this.#ui.addElement('button', footerDiv, 'todo-delete-btn');
+    if (deleteButton instanceof HTMLButtonElement) {
+      deleteButton.style.opacity = '0';
+      deleteButton.style.visibility = 'hidden';
+      deleteButton.innerHTML = '<i class="fa-solid fa-trash"></i> Delete';
+      deleteButton.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent the parent todoCard click event
+        if (confirm('Are you sure you want to delete this todo?')) {
+          this.#onTodoDelete(todo.id); // Call the delete callback
+        }
+      });
+    }
+
     // set the data attribute for the todo
     if (todoCard instanceof HTMLDivElement) {
       todoCard.setAttribute('data-todo-id', todo.id);
@@ -99,6 +116,19 @@ class TodoRenderer {
     todoCard.addEventListener('click', () => {
       this.#onTodoClick(todo)
     });
+
+    todoCard.addEventListener('mouseenter', (e) => {
+      if (deleteButton instanceof HTMLButtonElement) {
+        deleteButton.style.opacity = '1';
+        deleteButton.style.visibility = 'visible';
+      }
+    });
+    todoCard.addEventListener('mouseleave', (e) => {
+      if (deleteButton instanceof HTMLButtonElement) {
+        deleteButton.style.opacity = '0';
+        deleteButton.style.visibility = 'hidden';
+      }
+    })
   }
 
   /**

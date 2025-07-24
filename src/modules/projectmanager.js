@@ -100,8 +100,6 @@ class ProjectManager {
       this.projects = parsedProjects.map(projectData => {
         const project = new Project(projectData.name, projectData.description, projectData.id);
         project.todos = projectData.todos.map(todoData => {
-          // Defensively extract the title: if todoData.title is an object containing a 'title' property, use that.
-          // Otherwise, use todoData.title directly (assuming it's a string or null/undefined).
           let extractedTitle = todoData.title;
           if (typeof todoData.title === 'object' && todoData.title !== null && typeof todoData.title.title === 'string') {
             extractedTitle = todoData.title.title;

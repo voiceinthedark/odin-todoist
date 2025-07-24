@@ -29,7 +29,11 @@ class AppController {
     this.#contentHeader = document.querySelector('.content-head');
 
     // Initialize TodoRenderer, passing a bound method for todo clicks
-    this.#todoRenderer = new TodoRenderer(this.#uiManager, this.#contentMain, this.handleTodoClick.bind(this), this.handleTodoStatusChange.bind(this));
+    this.#todoRenderer = new TodoRenderer(this.#uiManager, 
+      this.#contentMain, 
+      this.handleTodoClick.bind(this), 
+      this.handleTodoStatusChange.bind(this), 
+      this.removeTodo.bind(this));
 
     this.init();
   }
@@ -57,12 +61,10 @@ class AppController {
   }
 
   setupEventListeners() {
-    // Example: Event listener for adding new projects (assuming a button or form)
     const addProjectButton = document.querySelector('#add-project-btn');
     if (addProjectButton) {
       addProjectButton.addEventListener('click', () => {
         this.openAddProjectModal();
-        // this.addProject('New Project Title', 'New project description');
       });
     }
   }
@@ -226,8 +228,21 @@ class AppController {
       console.log(`New project added: ${name}, ${description}`);
     });
   }
-
   // TODO: Add methods for editTodo, removeTodo similar to the above
+
+  /**
+   * @method - remove a todo from the list
+   * param {string} id - id of the todo to be removed
+   * */
+  removeTodo(id){
+    if (this.#currentActiveProject) {
+      this.#currentActiveProject.removeTodo(id);
+      this.#projectManager.saveProjects();
+      this.renderTodosForProject(this.#currentActiveProject); // Re-render todos for the active project
+    } else {
+      console.warn('No active project to remove todo from.');
+    }
+  }
 }
 
 export default AppController;
