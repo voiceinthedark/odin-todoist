@@ -29,7 +29,7 @@ class AppController {
     this.#contentHeader = document.querySelector('.content-head');
 
     // Initialize TodoRenderer, passing a bound method for todo clicks
-    this.#todoRenderer = new TodoRenderer(this.#uiManager, this.#contentMain, this.handleTodoClick.bind(this));
+    this.#todoRenderer = new TodoRenderer(this.#uiManager, this.#contentMain, this.handleTodoClick.bind(this), this.handleTodoStatusChange.bind(this));
 
     this.init();
   }
@@ -129,7 +129,7 @@ class AppController {
   handleTodoClick(todo) {
     console.log('Todo clicked in controller:', todo.id);
     const contentContainer = document.querySelector('.content'); // Parent element for the modal
-    this.#uiManager.getModalRenderer(todo, contentContainer).showEditModal((updatedTodoData) => { 
+    this.#uiManager.getModalRenderer(todo, contentContainer).showEditModal((updatedTodoData) => {
       console.log('Todo updated in modal, refreshing UI:', updatedTodoData);
       // After updating, re-render the todos for the currently displayed project
       if (this.#currentActiveProject) {
@@ -152,6 +152,17 @@ class AppController {
         this.renderTodosForProject(this.#currentActiveProject);
       }
     });
+  }
+  /**
+     * Handles the click event on a todo's status, toggling its completion status.
+     * @param {Todo} todo - The todo object whose status was clicked.
+     */
+  handleTodoStatusChange(todo) {
+    console.log('Todo status changed in controller:', todo.id, 'Current status:', todo.status);
+    // Toggle the status property directly as 'todo' is a reference to the actual object
+    todo.status = !todo.status;
+    this.#projectManager.saveProjects(); // Persist the updated status
+    this.renderTodosForProject(this.#currentActiveProject); // Re-render to reflect the change
   }
 
   /**
@@ -207,7 +218,7 @@ class AppController {
   }
 
   openAddProjectModal() {
-    const contentContainer = document.querySelector('.content'); 
+    const contentContainer = document.querySelector('.content');
     const modalRendererForProject = this.#uiManager.getModalRenderer(null, contentContainer);
 
     modalRendererForProject.showNewProjectModal((name, description) => {

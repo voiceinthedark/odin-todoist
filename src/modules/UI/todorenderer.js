@@ -7,17 +7,20 @@ class TodoRenderer {
   #parentElement;
   #ui;
   #onTodoClick;
+  #onTodoStatusChange;
   /**
    * @class
    * @classdesc A renderer for Todo objects
    * @param {UIManager} uiManager - instance of UIManager to perform DOM
    * @param {Node} parent - parent element of the todo card
    * @param {Function} onTodoClick - callback function to handle click events on the todo item
+   * @param {Function} onTodoStatusChange - callback function to handle click events on the todo status
    * */
-  constructor(uiManager, parent, onTodoClick) {
+  constructor(uiManager, parent, onTodoClick, onTodoStatusChange) {
     this.#parentElement = parent;
     this.#ui = uiManager;
     this.#onTodoClick = onTodoClick;
+    this.#onTodoStatusChange = onTodoStatusChange;
   }
 
   /**
@@ -65,21 +68,26 @@ class TodoRenderer {
     const footerDiv = this.#ui.addElement('div', todoCard, 'todo-footer');
 
 
-    const todoNotes = this.#ui.addElement('span', footerDiv, 'todo-notes');
-    todoNotes.textContent = `Notes: ${todo.notes ? todo.notes : 'No notes'}`;
-    const todoChecklist = this.#ui.addElement('ul', footerDiv, 'todo-checklist');
-    todo.checklist.forEach(item => {
-      const checklistItem = this.#ui.addElement('li', todoChecklist, 'checklist-item');
-      checklistItem.textContent = item;
-    });
+    // const todoNotes = this.#ui.addElement('span', footerDiv, 'todo-notes');
+    // todoNotes.textContent = `Notes: ${todo.notes ? todo.notes : 'No notes'}`;
+    // const todoChecklist = this.#ui.addElement('ul', footerDiv, 'todo-checklist');
+    // todo.checklist.forEach(item => {
+    //   const checklistItem = this.#ui.addElement('li', todoChecklist, 'checklist-item');
+    //   checklistItem.textContent = item;
+    // });
     const todoStatus = this.#ui.addElement('span', footerDiv, 'todo-status');
     if (todoStatus instanceof HTMLSpanElement) {
-      todoStatus.innerHTML = `${todo.status ? '<i class="fa-regular fa-check"></i> Completed' : '<i class="fa-regular fa-clock"></i> Pending'}`;
+      todoStatus.innerHTML = `${todo.status ? '<i class="fa-solid fa-check"></i> Completed' : '<i class="fa-solid fa-clock"></i> Pending'}`;
       if (todo.status) {
         todoStatus.classList.toggle('status-completed');
       } else {
         todoStatus.classList.toggle('status-pending');
       }
+      todoStatus.addEventListener('click', (e) => {
+        console.log(`Todo status toggled: ${todo.id} - ${!todo.status}`);
+        e.stopPropagation();
+        this.#onTodoStatusChange(todo);
+      });
     }
 
     // set the data attribute for the todo
