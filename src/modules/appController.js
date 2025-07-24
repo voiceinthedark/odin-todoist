@@ -116,7 +116,7 @@ class AppController {
     }
     const addTodoButton = this.#uiManager.addElement('button', this.#contentHeader, 'add-todo-btn');
     if (addTodoButton instanceof HTMLButtonElement) {
-      addTodoButton.textContent = 'Add Todo';
+      addTodoButton.innerHTML = `<i class="fa-solid fa-file"></i> Add Todo`;
       addTodoButton.addEventListener('click', () => {
         // Open modal to add new todo
         const contentContainer = document.querySelector('.content'); // Parent element for the modal

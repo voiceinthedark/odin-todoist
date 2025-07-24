@@ -1,2 +1,5 @@
 node_modules
 dist
+src/assets/fonts/Montserrat/static
+src/assets/fonts/Montserrat/OFL.txt
+src/assets/fonts/Montserrat/README.txt

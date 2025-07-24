@@ -14,6 +14,14 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf') format('truetype'),
+    url('../assets/fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal, italic;
+}
+
 *,
 *::before,
 *::after {
@@ -66,6 +74,8 @@ body {
     /*   "options" */
     /*   "lists"; */
     border-right: 1px solid rgba(255, 255, 250, 0.2);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
 
     &>.sidebar-head {
       font-size: 150%;
@@ -86,6 +96,7 @@ body {
       margin-left: 0;
 
       &>#sidebar-lists-head {
+        font-family: 'lato', sans-serif;
         background-color: rgba(255, 255, 250, 0.1);
         height: 60px;
         display: flex;
@@ -98,7 +109,7 @@ body {
           padding-left: 10px;
           padding-top: 5px;
           padding-bottom: 5px;
-          font-size: 150%;
+          font-size: 110%;
           border-radius: 9px;
           background-color: rgba(255, 255, 250, 0.2);
           transition: background-color 0.3s ease;
@@ -117,6 +128,14 @@ body {
         }
       }
 
+      #add-project-btn{
+        display: flex;
+        border: 2px solid white;
+        justify-content: center;
+        align-items: center;
+      }
+
+
       /* grid-area: lists; */
       &>ul {
         list-style: none;
@@ -127,6 +146,7 @@ body {
       }
 
       .project-list-items {
+        font-family: 'lato', sans-serif;
         list-style: none;
         list-style-position: inside;
         padding: 10px 0 0 10px;
@@ -165,7 +185,8 @@ body {
             background-color: var(--bg-color-tertiary);
             padding: 4px 8px;
           }
-          &>.project-edit-btn{
+
+          &>.project-edit-btn {
             position: absolute;
             top: -10px;
             right: 3px;
@@ -173,14 +194,14 @@ body {
             opacity: 0;
             transition: visibility 0.3s ease, opacity 0.3s ease;
 
-            &:hover{
+            &:hover {
               cursor: pointer;
               /*background-color: rgba(255, 255, 250, 0.8);*/
               color: lime;
             }
           }
 
-          &>.project-delete-btn{
+          &>.project-delete-btn {
             position: absolute;
             top: -10px;
             right: 40px;
@@ -188,7 +209,7 @@ body {
             opacity: 0;
             transition: visibility 0.3s ease, opacity 0.3s ease;
 
-            &:hover{
+            &:hover {
               cursor: pointer;
               color: rgba(255, 50, 50, 0.9);
             }
@@ -211,6 +232,7 @@ body {
     width: 100%;
     height: 100%;
     margin-top: 20px;
+    font-family: 'Montserrat', sans-serif;
 
     .content-head {
       display: flex;
@@ -239,6 +261,7 @@ body {
         display: flex;
         align-items: center;
         justify-content: center;
+        gap: 8px;
         padding: 5px 10px;
         font-size: 120%;
         border-radius: 8px;
@@ -323,13 +346,14 @@ body {
           font-size: 80%;
         }
 
-        .todo-status{
-          &:hover{
+        .todo-status {
+          &:hover {
             cursor: pointer;
-            background-color: rgba(255, 250,250, 0.5);
+            background-color: rgba(255, 250, 250, 0.5);
           }
         }
-        .todo-delete-btn{
+
+        .todo-delete-btn {
           appearance: none;
           background-color: rgba(255, 50, 50, 0.9);
           font-weight: bold;
@@ -343,7 +367,7 @@ body {
           visibility: hidden;
           transition: opacity 0.5s ease, visibility 0.5s ease;
 
-          &:hover{
+          &:hover {
             cursor: pointer;
             background-color: rgba(205, 70, 90, 0.9);
             transition: background-color 0.8s ease;
@@ -352,7 +376,7 @@ body {
         }
       }
 
-      
+
     }
   }
 
@@ -470,7 +494,8 @@ body {
   .close {
     cursor: pointer;
   }
-  .active{
+
+  .active {
     background-color: rgba(255, 255, 250, 0.2);
     /* color: var(--bg-color-secondary); */
   }
