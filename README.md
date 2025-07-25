@@ -13,7 +13,7 @@ A todoist clone.
 
 ## Roadmap  
 
-- [ ] Show completed and uncompleted tasks
+- [x] Show completed and uncompleted tasks
 - [ ] Sort tasks by dates
 - [ ] Save and load tasks into and from file backup
 
