@@ -1,4 +1,5 @@
 import UIManager from "./UI/uimanager";
+import Todo from "./todo";
 import projectManager from "./projectmanager";
 import ProjectRenderer from "./UI/projectrenderer";
 import TodoRenderer from "./UI/todorenderer";
@@ -42,8 +43,10 @@ class AppController {
     // Initial setup: Add some default projects and todos if none exist
     if (this.#projectManager.projects.length === 0) {
       const defaultProject = this.#projectManager.addProject('Inbox', 'Default project for all new tasks');
-      defaultProject.addTodo('Complete initial setup', 'Set up the basic application structure.', new Date(), 4);
-      defaultProject.addTodo('Plan project features', 'Brainstorm and list core functionalities.', new Date(), 3);
+      const todo1 = new Todo('Complete initial setup', 'Set up the basic application structure.', new Date(), 4)
+      const todo2 = new Todo('Plan project features', 'Brainstorm and list core functionalities.', new Date(), 3);
+      defaultProject.addTodo(todo1);
+      defaultProject.addTodo(todo2);
       this.#currentActiveProject = defaultProject; // Set the default project as active
     } else {
       // If projects exist, make the first one active by default
