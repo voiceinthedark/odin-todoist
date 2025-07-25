@@ -1,7 +1,7 @@
 // @ts-check
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
-/* class Todo 
+/* class Todo
  * * * * * * * */
 class Todo {
   #id;
@@ -23,7 +23,16 @@ class Todo {
    * @param {any[]} [checklist=[]] - checklist options (default none)
    * @param {string | null} [id=null] - Todo id (optional, generated)
    * */
-  constructor(title, description, dueDate, priority, status = false, notes = '', checklist = [], id = null) {
+  constructor(
+    title,
+    description,
+    dueDate,
+    priority,
+    status = false,
+    notes = "",
+    checklist = [],
+    id = null,
+  ) {
     this.#id = id || uuidv4();
     this.#title = title;
     this.#description = description;
@@ -77,22 +86,22 @@ class Todo {
     return this.#title;
   }
 
-  get notes(){
+  get notes() {
     return this.#notes;
   }
-  set notes(val){
+  set notes(val) {
     this.#notes = val;
   }
 
-  get checklist(){
+  get checklist() {
     return this.#checklist;
   }
-  set checklist(val){
+  set checklist(val) {
     this.#checklist = val;
   }
 
-  toJSON(){
-    return{
+  toJSON() {
+    return {
       id: this.#id,
       title: this.#title,
       description: this.#description,
@@ -101,9 +110,8 @@ class Todo {
       status: this.#status,
       notes: this.#notes,
       checklist: this.#checklist,
-    }
+    };
   }
-  
 }
 
 export default Todo;

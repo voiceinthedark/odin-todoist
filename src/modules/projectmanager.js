@@ -1,7 +1,7 @@
 // @ts-check
-import Project from './project.js';
-import Todo from './todo.js';
-import storageManager from './todostoragemanager.js';
+import Project from "./project.js";
+import Todo from "./todo.js";
+import storageManager from "./todostoragemanager.js";
 
 /**
  * @class ProjectManager
@@ -15,7 +15,7 @@ class ProjectManager {
   #projects;
   /**
    * @constructor
-    * */
+   * */
   constructor() {
     this.#projects = [];
     this.loadProjects();
@@ -59,7 +59,7 @@ class ProjectManager {
     return [...this.#projects];
   }
 
-  /** 
+  /**
    * Sets the entire list of projects. Use with caution as it bypasses
    * individual add/remove methods.
    * @param {Project[]} val - an array of Project elements
@@ -67,9 +67,9 @@ class ProjectManager {
   set projects(val) {
     this.#projects = val;
   }
-  /** 
+  /**
    *  function getProjectById will return a project by id
-   *  @param {string} id 
+   *  @param {string} id
    *  @returns {Project | undefined} project
    * */
   getProjectById(id) {
@@ -77,7 +77,7 @@ class ProjectManager {
   }
   /**
    * function getProjectByName gets a project by name
-   * @param {string} name 
+   * @param {string} name
    * @returns {Project | undefined} The project or undefined if not found
    * */
   getProjectByName(name) {
@@ -85,23 +85,36 @@ class ProjectManager {
   }
 
   saveProjects() {
-    const serializableProjects = this.projects.map(project => project.toJSON());
+    const serializableProjects = this.projects.map((project) =>
+      project.toJSON(),
+    );
     console.log(serializableProjects);
     // persist data
-    storageManager.setItem('todoAppProjects', JSON.stringify(serializableProjects));
+    storageManager.setItem(
+      "todoAppProjects",
+      JSON.stringify(serializableProjects),
+    );
     console.log("projects saved to localstorage");
   }
 
   loadProjects() {
-    const storedProjects = storageManager.getItem('todoAppProjects');
+    const storedProjects = storageManager.getItem("todoAppProjects");
     if (storedProjects) {
       const parsedProjects = JSON.parse(storedProjects);
       // Reconstruct Project and Todo instances from plain objects
-      this.projects = parsedProjects.map(projectData => {
-        const project = new Project(projectData.name, projectData.description, projectData.id);
-        project.todos = projectData.todos.map(todoData => {
+      this.projects = parsedProjects.map((projectData) => {
+        const project = new Project(
+          projectData.name,
+          projectData.description,
+          projectData.id,
+        );
+        project.todos = projectData.todos.map((todoData) => {
           let extractedTitle = todoData.title;
-          if (typeof todoData.title === 'object' && todoData.title !== null && typeof todoData.title.title === 'string') {
+          if (
+            typeof todoData.title === "object" &&
+            todoData.title !== null &&
+            typeof todoData.title.title === "string"
+          ) {
             extractedTitle = todoData.title.title;
           }
 
@@ -111,16 +124,16 @@ class ProjectManager {
             todoData.dueDate ? new Date(todoData.dueDate) : null, // Convert ISO string back to Date
             todoData.priority,
             todoData.status,
-            todoData.notes || '',
+            todoData.notes || "",
             todoData.checklist || [],
             todoData.id,
           );
         });
         return project;
       });
-      console.log('Projects loaded from localStorage.');
+      console.log("Projects loaded from localStorage.");
     } else {
-      console.log('No projects found in localStorage.');
+      console.log("No projects found in localStorage.");
     }
   }
 }
@@ -128,6 +141,6 @@ class ProjectManager {
 /**
  * Singleton instance of ProjectManager
  * @module ProjectManager
-  * */
+ * */
 const projectManager = new ProjectManager();
 export default projectManager;

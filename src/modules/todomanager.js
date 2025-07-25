@@ -11,7 +11,7 @@ class TodoManager {
    * private attribute todos
    * */
   #todos;
-  /** 
+  /**
    * @class
    * @param {Todo[]} todos - an array of todo objects */
   constructor(todos) {
@@ -40,7 +40,16 @@ class TodoManager {
    * @param {string|null} [id=null] - optional existing ID
    * @returns {Todo} created todo
    * */
-  addTodo(title, description, dueDate, priority, status = false, notes = '', checklist = [], id = null) {
+  addTodo(
+    title,
+    description,
+    dueDate,
+    priority,
+    status = false,
+    notes = "",
+    checklist = [],
+    id = null,
+  ) {
     const todo = new Todo(
       title,
       description,
@@ -49,27 +58,32 @@ class TodoManager {
       status,
       notes,
       checklist,
-      id
+      id,
     );
     this.#todos.push(todo);
     return todo;
   }
 
-  /** 
+  /**
    * function removeTodo will remove an item by id
-   * @param {string} id 
+   * @param {string} id
    * @returns {void}
    * */
   removeTodo(id) {
     console.log("ID to remove:", id); // Check the ID being passed
-    console.log("Current todos before filter:", this.#todos.map(t => t.id)); // Check IDs before filter
+    console.log(
+      "Current todos before filter:",
+      this.#todos.map((t) => t.id),
+    ); // Check IDs before filter
     this.#todos = this.#todos.filter((t) => {
       console.log(`Comparing '${t.id}' with '${id}'. Match: ${t.id === id}`); // Detailed comparison log
       return t.id !== id;
     });
 
-    console.log("Todos after filter:", this.#todos.map(t => t.id)); // Check IDs after filter
-
+    console.log(
+      "Todos after filter:",
+      this.#todos.map((t) => t.id),
+    ); // Check IDs after filter
   }
   get todos() {
     return this.#todos;
@@ -82,10 +96,10 @@ class TodoManager {
 
   /**
    * @method to get todo by id
-   * @param {string} id 
+   * @param {string} id
    * */
-  getTodoById(id){
-    return this.#todos.find(todo => todo.id === id);
+  getTodoById(id) {
+    return this.#todos.find((todo) => todo.id === id);
   }
 }
 

@@ -18,7 +18,13 @@ class TodoRenderer {
    * @param {Function} onTodoStatusChange - callback function to handle click events on the todo status
    * @param {Function} onTodoDelete - Callback function to handle delete event on the todo item
    * */
-  constructor(uiManager, parent, onTodoClick, onTodoStatusChange, onTodoDelete) {
+  constructor(
+    uiManager,
+    parent,
+    onTodoClick,
+    onTodoStatusChange,
+    onTodoDelete,
+  ) {
     this.#parentElement = parent;
     this.#ui = uiManager;
     this.#onTodoClick = onTodoClick;
@@ -32,44 +38,66 @@ class TodoRenderer {
    * @description Renders a single todo card to the parent element.
    * */
   renderTodo(todo) {
-    const todoCard = this.#ui.addElement('div', this.#parentElement, 'todo-card');
+    const todoCard = this.#ui.addElement(
+      "div",
+      this.#parentElement,
+      "todo-card",
+    );
 
-    const headerDiv = this.#ui.addElement('div', todoCard, 'todo-header');
-    const headerRight = this.#ui.addElement('div', headerDiv, 'todo-header-right');
-    const todoTitle = this.#ui.addElement('h3', headerDiv, 'todo-title');
+    const headerDiv = this.#ui.addElement("div", todoCard, "todo-header");
+    const headerRight = this.#ui.addElement(
+      "div",
+      headerDiv,
+      "todo-header-right",
+    );
+    const todoTitle = this.#ui.addElement("h3", headerDiv, "todo-title");
     todoTitle.textContent = todo.title;
-    const todoDueDate = this.#ui.addElement('span', headerRight, 'todo-due-date');
+    const todoDueDate = this.#ui.addElement(
+      "span",
+      headerRight,
+      "todo-due-date",
+    );
     if (todoDueDate instanceof HTMLSpanElement) {
-      todoDueDate.innerHTML = `<i class="fa-solid fa-calendar"></i> ${todo.dueDate ? todo.dueDate.toLocaleDateString() : 'No due date'}`;
+      todoDueDate.innerHTML = `<i class="fa-solid fa-calendar"></i> ${todo.dueDate ? todo.dueDate.toLocaleDateString() : "No due date"}`;
     }
-    const todoPriority = this.#ui.addElement('span', headerRight, 'todo-priority');
-    if (todoPriority instanceof HTMLSpanElement && todoCard instanceof HTMLDivElement) {
+    const todoPriority = this.#ui.addElement(
+      "span",
+      headerRight,
+      "todo-priority",
+    );
+    if (
+      todoPriority instanceof HTMLSpanElement &&
+      todoCard instanceof HTMLDivElement
+    ) {
       todoPriority.innerHTML = `<i class="fa-solid fa-flag"></i>`;
       switch (todo.priority) {
         case 1:
-          todoPriority.classList.toggle('priority-lowest');
-          todoCard.classList.toggle('todo-card-priority-lowest');
+          todoPriority.classList.toggle("priority-lowest");
+          todoCard.classList.toggle("todo-card-priority-lowest");
           break;
         case 2:
-          todoPriority.classList.toggle('priority-low');
-          todoCard.classList.toggle('todo-card-priority-low');
+          todoPriority.classList.toggle("priority-low");
+          todoCard.classList.toggle("todo-card-priority-low");
           break;
         case 3:
-          todoPriority.classList.toggle('priority-medium');
-          todoCard.classList.toggle('todo-card-priority-medium');
+          todoPriority.classList.toggle("priority-medium");
+          todoCard.classList.toggle("todo-card-priority-medium");
           break;
         case 4:
-          todoPriority.classList.toggle('priority-high');
-          todoCard.classList.toggle('todo-card-priority-high');
+          todoPriority.classList.toggle("priority-high");
+          todoCard.classList.toggle("todo-card-priority-high");
           break;
       }
     }
 
-    const todoDescription = this.#ui.addElement('span', todoCard, 'todo-description');
+    const todoDescription = this.#ui.addElement(
+      "span",
+      todoCard,
+      "todo-description",
+    );
     todoDescription.textContent = todo.description;
 
-    const footerDiv = this.#ui.addElement('div', todoCard, 'todo-footer');
-
+    const footerDiv = this.#ui.addElement("div", todoCard, "todo-footer");
 
     // const todoNotes = this.#ui.addElement('span', footerDiv, 'todo-notes');
     // todoNotes.textContent = `Notes: ${todo.notes ? todo.notes : 'No notes'}`;
@@ -78,15 +106,15 @@ class TodoRenderer {
     //   const checklistItem = this.#ui.addElement('li', todoChecklist, 'checklist-item');
     //   checklistItem.textContent = item;
     // });
-    const todoStatus = this.#ui.addElement('span', footerDiv, 'todo-status');
+    const todoStatus = this.#ui.addElement("span", footerDiv, "todo-status");
     if (todoStatus instanceof HTMLSpanElement) {
       todoStatus.innerHTML = `${todo.status ? '<i class="fa-solid fa-check"></i> Completed' : '<i class="fa-solid fa-clock"></i> Pending'}`;
       if (todo.status) {
-        todoStatus.classList.toggle('status-completed');
+        todoStatus.classList.toggle("status-completed");
       } else {
-        todoStatus.classList.toggle('status-pending');
+        todoStatus.classList.toggle("status-pending");
       }
-      todoStatus.addEventListener('click', (e) => {
+      todoStatus.addEventListener("click", (e) => {
         console.log(`Todo status toggled: ${todo.id} - ${!todo.status}`);
         e.stopPropagation();
         this.#onTodoStatusChange(todo);
@@ -94,14 +122,18 @@ class TodoRenderer {
     }
 
     // Add delete button
-    const deleteButton = this.#ui.addElement('button', footerDiv, 'todo-delete-btn');
+    const deleteButton = this.#ui.addElement(
+      "button",
+      footerDiv,
+      "todo-delete-btn",
+    );
     if (deleteButton instanceof HTMLButtonElement) {
-      deleteButton.style.opacity = '0';
-      deleteButton.style.visibility = 'hidden';
+      deleteButton.style.opacity = "0";
+      deleteButton.style.visibility = "hidden";
       deleteButton.innerHTML = '<i class="fa-solid fa-trash"></i> Delete';
-      deleteButton.addEventListener('click', (e) => {
+      deleteButton.addEventListener("click", (e) => {
         e.stopPropagation(); // Prevent the parent todoCard click event
-        if (confirm('Are you sure you want to delete this todo?')) {
+        if (confirm("Are you sure you want to delete this todo?")) {
           this.#onTodoDelete(todo.id); // Call the delete callback
         }
       });
@@ -109,26 +141,26 @@ class TodoRenderer {
 
     // set the data attribute for the todo
     if (todoCard instanceof HTMLDivElement) {
-      todoCard.setAttribute('data-todo-id', todo.id);
+      todoCard.setAttribute("data-todo-id", todo.id);
     }
 
     // capture click event on the todo card
-    todoCard.addEventListener('click', () => {
-      this.#onTodoClick(todo)
+    todoCard.addEventListener("click", () => {
+      this.#onTodoClick(todo);
     });
 
-    todoCard.addEventListener('mouseenter', (e) => {
+    todoCard.addEventListener("mouseenter", (e) => {
       if (deleteButton instanceof HTMLButtonElement) {
-        deleteButton.style.opacity = '1';
-        deleteButton.style.visibility = 'visible';
+        deleteButton.style.opacity = "1";
+        deleteButton.style.visibility = "visible";
       }
     });
-    todoCard.addEventListener('mouseleave', (e) => {
+    todoCard.addEventListener("mouseleave", (e) => {
       if (deleteButton instanceof HTMLButtonElement) {
-        deleteButton.style.opacity = '0';
-        deleteButton.style.visibility = 'hidden';
+        deleteButton.style.opacity = "0";
+        deleteButton.style.visibility = "hidden";
       }
-    })
+    });
   }
 
   /**
@@ -138,9 +170,9 @@ class TodoRenderer {
    */
   renderTodoList(todos) {
     if (!Array.isArray(todos)) {
-      throw new Error('Expected an array of Todo objects');
+      throw new Error("Expected an array of Todo objects");
     }
-    todos.forEach(todo => {
+    todos.forEach((todo) => {
       this.renderTodo(todo);
     });
   }

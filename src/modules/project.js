@@ -1,7 +1,7 @@
 // @ts-check
-import { v4 as uuidv4 } from 'uuid';
-import TodoManager from './todomanager.js';
-import Todo from './todo.js';
+import { v4 as uuidv4 } from "uuid";
+import TodoManager from "./todomanager.js";
+import Todo from "./todo.js";
 
 /* class Project - to categorize todos in a list
  * * * * * * * * * * * */
@@ -15,7 +15,7 @@ class Project {
    * class Project, containst list of todos associated wit the project
    * @param {string} name - name of the project
    * @param {string} description - description of the project
-   * @param {string | null} [id=null] 
+   * @param {string | null} [id=null]
    * */
   constructor(name, description, id = null) {
     this.#id = id || uuidv4();
@@ -54,13 +54,12 @@ class Project {
   }
 
   getCompletedTodos() {
-    return this.#todoManager.todos.filter(t => t.status);
+    return this.#todoManager.todos.filter((t) => t.status);
   }
 
   getPendingTodos() {
-    return this.#todoManager.todos.filter(t => !t.status);
+    return this.#todoManager.todos.filter((t) => !t.status);
   }
-
 
   /**
    * function addTodo - adds a todo associated with the current project
@@ -81,14 +80,14 @@ class Project {
       todoData.dueDate,
       todoData.priority,
       todoData.status || false,
-      todoData.notes || '',
-      todoData.checklist || []
+      todoData.notes || "",
+      todoData.checklist || [],
     );
   }
 
   /**
    * function removeTodo - removes a todo from the project by id
-   * @param {string} id 
+   * @param {string} id
    * */
   removeTodo(id) {
     this.#todoManager.removeTodo(id);
@@ -103,11 +102,9 @@ class Project {
       id: this.#id,
       name: this.#name,
       description: this.#description,
-      todos: this.#todoManager.todos.map(todo => todo.toJSON()),
-
-    }
+      todos: this.#todoManager.todos.map((todo) => todo.toJSON()),
+    };
   }
-
 }
 
 export default Project;

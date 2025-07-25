@@ -11,7 +11,7 @@ A todoist clone.
 - Delete tasks and projects
 - Filter tasks by project
 
-## Roadmap  
+## Roadmap
 
 - [x] Show completed and uncompleted tasks
 - [ ] Sort tasks by dates

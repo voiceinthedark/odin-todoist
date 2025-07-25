@@ -1,23 +1,27 @@
 @font-face {
-  font-family: 'lato';
-  src: url('../assets/fonts/Lato-Regular.ttf') format('truetype'), url('../assets/fonts/Lato-Bold.ttf') format('truetype'),
-    url('../assets/fonts/Lato-Italic.ttf') format('truetype');
+  font-family: "lato";
+  src:
+    url("../assets/fonts/Lato-Regular.ttf") format("truetype"),
+    url("../assets/fonts/Lato-Bold.ttf") format("truetype"),
+    url("../assets/fonts/Lato-Italic.ttf") format("truetype");
   font-weight: 400, 700, 400;
   font-style: normal, normal, italic;
-
 }
 
 @font-face {
-  font-family: 'Font Awesome 6 Free';
-  src: url('../assets/fonts/fa-solid-900.ttf') format('truetype');
+  font-family: "Font Awesome 6 Free";
+  src: url("../assets/fonts/fa-solid-900.ttf") format("truetype");
   font-weight: 900;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Montserrat';
-  src: url('../assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf') format('truetype'),
-    url('../assets/fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf') format('truetype');
+  font-family: "Montserrat";
+  src:
+    url("../assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf")
+      format("truetype"),
+    url("../assets/fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf")
+      format("truetype");
   font-weight: 100 900;
   font-style: normal, italic;
 }
@@ -29,12 +33,12 @@
 }
 
 :root {
-  --bg-color-main: #E3D8F1;
+  --bg-color-main: #e3d8f1;
   --color-main: #000;
   --sidebar-bg-color: #222e50;
   --sidebar-color: #fff;
   --bg-color-secondary: #007991;
-  --bg-color-tertiary: #50D8D7;
+  --bg-color-tertiary: #50d8d7;
   --color-tea: #beffc7;
   --color-grayish: #b0b0b0;
 
@@ -50,12 +54,9 @@ body {
   padding: 0;
   height: 100vh;
   color: var(--color-main);
-  font-family: 'lato', sans-serif;
+  font-family: "lato", sans-serif;
   font-size: 16px;
 }
-
-
-
 
 .container {
   display: grid;
@@ -74,29 +75,28 @@ body {
     /*   "options" */
     /*   "lists"; */
     border-right: 1px solid rgba(255, 255, 250, 0.2);
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-weight: 400;
 
-    &>.sidebar-head {
+    & > .sidebar-head {
       font-size: 150%;
       padding-left: 10px;
       margin-top: -10px;
       /* grid-area: head; */
     }
 
-    &>.sidebar-options {
-
+    & > .sidebar-options {
       /* grid-area: options; */
-      &>ul {
+      & > ul {
         list-style: none;
       }
     }
 
-    &>.sidebar-lists {
+    & > .sidebar-lists {
       margin-left: 0;
 
-      &>#sidebar-lists-head {
-        font-family: 'lato', sans-serif;
+      & > #sidebar-lists-head {
+        font-family: "lato", sans-serif;
         background-color: rgba(255, 255, 250, 0.1);
         height: 60px;
         display: flex;
@@ -104,7 +104,7 @@ body {
         justify-content: space-between;
         align-items: center;
 
-        &>i {
+        & > i {
           padding-right: 10px;
           padding-left: 10px;
           padding-top: 5px;
@@ -118,35 +118,32 @@ body {
             background-color: rgba(255, 255, 250, 0.3);
             cursor: pointer;
           }
-
-
         }
 
-        &>h1 {
+        & > h1 {
           padding-top: 5px;
           padding-left: 5px;
         }
       }
 
-      #add-project-btn{
+      #add-project-btn {
         display: flex;
         border: 2px solid white;
         justify-content: center;
         align-items: center;
       }
 
-
       /* grid-area: lists; */
-      &>ul {
+      & > ul {
         list-style: none;
       }
 
-      &>.project-list {
+      & > .project-list {
         margin-left: 0;
       }
 
       .project-list-items {
-        font-family: 'lato', sans-serif;
+        font-family: "lato", sans-serif;
         list-style: none;
         list-style-position: inside;
         padding: 10px 0 0 10px;
@@ -156,8 +153,7 @@ body {
         margin-left: 0;
         margin-bottom: 10px;
 
-
-        &>li>div {
+        & > li > div {
           display: flex;
           align-items: center;
           position: relative;
@@ -173,12 +169,12 @@ body {
             cursor: pointer;
           }
 
-          &>.project-name {
+          & > .project-name {
             font-size: 130%;
             font-weight: 600;
           }
 
-          &>.project-todos-count {
+          & > .project-todos-count {
             font-size: 80%;
             border-radius: 50%;
             border: 1px solid var(--tea-green);
@@ -186,13 +182,15 @@ body {
             padding: 4px 8px;
           }
 
-          &>.project-edit-btn {
+          & > .project-edit-btn {
             position: absolute;
             top: -10px;
             right: 3px;
             visibility: hidden;
             opacity: 0;
-            transition: visibility 0.3s ease, opacity 0.3s ease;
+            transition:
+              visibility 0.3s ease,
+              opacity 0.3s ease;
 
             &:hover {
               cursor: pointer;
@@ -201,26 +199,24 @@ body {
             }
           }
 
-          &>.project-delete-btn {
+          & > .project-delete-btn {
             position: absolute;
             top: -10px;
             right: 40px;
             visibility: hidden;
             opacity: 0;
-            transition: visibility 0.3s ease, opacity 0.3s ease;
+            transition:
+              visibility 0.3s ease,
+              opacity 0.3s ease;
 
             &:hover {
               cursor: pointer;
               color: rgba(255, 50, 50, 0.9);
             }
-
           }
-
         }
       }
     }
-
-
   }
 
   .content {
@@ -232,7 +228,7 @@ body {
     width: 100%;
     height: 100%;
     margin-top: 20px;
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
 
     .content-head {
       display: flex;
@@ -245,18 +241,18 @@ body {
         justify-content: flex-start;
         align-items: flex-start;
 
-        &>h1 {
+        & > h1 {
           font-size: 150%;
           line-height: 0.2;
         }
 
-        &>span {
+        & > span {
           font-size: 80%;
           color: var(--color-grayish);
           line-height: 0.5;
         }
 
-        &>.todo-count {
+        & > .todo-count {
           display: flex;
           gap: 4px;
           font-size: 70%;
@@ -283,10 +279,8 @@ body {
         &:hover {
           background-color: var(--bg-color-tertiary);
         }
-
       }
     }
-
   }
 
   .content-main {
@@ -374,18 +368,17 @@ body {
 
           opacity: 0;
           visibility: hidden;
-          transition: opacity 0.5s ease, visibility 0.5s ease;
+          transition:
+            opacity 0.5s ease,
+            visibility 0.5s ease;
 
           &:hover {
             cursor: pointer;
             background-color: rgba(205, 70, 90, 0.9);
             transition: background-color 0.8s ease;
           }
-
         }
       }
-
-
     }
   }
 
@@ -432,7 +425,6 @@ body {
       textarea {
         resize: none;
       }
-
     }
   }
 
@@ -473,30 +465,38 @@ body {
   }
 
   .todo-card-priority-high {
-    background: linear-gradient(to right,
-        rgba(255, 0, 0, 0.1),
-        rgba(255, 0, 0, 0.2));
+    background: linear-gradient(
+      to right,
+      rgba(255, 0, 0, 0.1),
+      rgba(255, 0, 0, 0.2)
+    );
     border-left: 5px solid crimson;
   }
 
   .todo-card-priority-medium {
-    background: linear-gradient(to right,
-        rgba(255, 165, 0, 0.1),
-        rgba(255, 165, 0, 0.2));
+    background: linear-gradient(
+      to right,
+      rgba(255, 165, 0, 0.1),
+      rgba(255, 165, 0, 0.2)
+    );
     border-left: 5px solid orange;
   }
 
   .todo-card-priority-low {
-    background: linear-gradient(to right,
-        rgba(0, 128, 0, 0.1),
-        rgba(0, 128, 0, 0.2));
+    background: linear-gradient(
+      to right,
+      rgba(0, 128, 0, 0.1),
+      rgba(0, 128, 0, 0.2)
+    );
     border-left: 5px solid green;
   }
 
   .todo-card-priority-lowest {
-    background: linear-gradient(to right,
-        rgba(32, 178, 170, 0.1),
-        rgba(32, 178, 170, 0.2));
+    background: linear-gradient(
+      to right,
+      rgba(32, 178, 170, 0.1),
+      rgba(32, 178, 170, 0.2)
+    );
     border-left: 5px solid lightseagreen;
   }
 
@@ -508,6 +508,4 @@ body {
     background-color: rgba(255, 255, 250, 0.2);
     /* color: var(--bg-color-secondary); */
   }
-
-
 }

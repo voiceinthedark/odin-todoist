@@ -15,9 +15,9 @@ class ModalRenderer {
   #project;
   /**
    * @constructor
-   * @param {Todo | null | undefined} todo 
+   * @param {Todo | null | undefined} todo
    * @param {Project | null | undefined} project
-   * @param {Node} parentElement 
+   * @param {Node} parentElement
    * @param {UIManager} uiManager
    * */
   constructor(todo = null, project = null, parentElement, uiManager) {
@@ -29,12 +29,12 @@ class ModalRenderer {
 
   /**
    * @method - show new project modal
-   * @param {(name: string, description: string) => void} [onSubmit=(name, description) => { }] 
+   * @param {(name: string, description: string) => void} [onSubmit=(name, description) => { }]
    * */
-  showNewProjectModal(onSubmit = (name, description) => { }) {
-    const modal = this.#ui.addElement('div', this.#parentElement, 'modal');
+  showNewProjectModal(onSubmit = (name, description) => {}) {
+    const modal = this.#ui.addElement("div", this.#parentElement, "modal");
     if (modal instanceof HTMLDivElement) {
-      modal.classList.add('show');
+      modal.classList.add("show");
       modal.innerHTML = `
       <div class="modal-content">
         <span class="close"><i class="fa-solid fa-x"></i></span>
@@ -48,28 +48,27 @@ class ModalRenderer {
         </form>
       </div>`;
 
-      const closeButton = modal.querySelector('.close');
-      closeButton?.addEventListener('click', () => {
-        modal.classList.remove('show');
-        modal.classList.add('hide');
+      const closeButton = modal.querySelector(".close");
+      closeButton?.addEventListener("click", () => {
+        modal.classList.remove("show");
+        modal.classList.add("hide");
       });
 
-      const addProjectForm = modal.querySelector('#add-project-form');
+      const addProjectForm = modal.querySelector("#add-project-form");
       if (addProjectForm instanceof HTMLFormElement) {
-        addProjectForm.addEventListener('submit', (event) => {
+        addProjectForm.addEventListener("submit", (event) => {
           event.preventDefault();
 
           const formData = new FormData(addProjectForm);
-          const name = formData.get('name')?.toString() || '';
-          const description = formData.get('description')?.toString() || '';
+          const name = formData.get("name")?.toString() || "";
+          const description = formData.get("description")?.toString() || "";
 
           // call submit function wit the project data
           onSubmit(name, description);
 
-
           // Close the modal
-          modal.classList.remove('show');
-          modal.classList.add('hide');
+          modal.classList.remove("show");
+          modal.classList.add("hide");
         });
       }
     }
@@ -77,12 +76,12 @@ class ModalRenderer {
 
   /**
    * @method - show the edit project modal
-   * @param {(name: string, description: string) => void} [onEdit=(name, description) => {}] 
+   * @param {(name: string, description: string) => void} [onEdit=(name, description) => {}]
    * */
-  showEditProjectModal(onEdit = (name, description) => { }) {
-    const modal = this.#ui.addElement('div', this.#parentElement, 'modal');
+  showEditProjectModal(onEdit = (name, description) => {}) {
+    const modal = this.#ui.addElement("div", this.#parentElement, "modal");
     if (modal instanceof HTMLDivElement) {
-      modal.classList.add('show');
+      modal.classList.add("show");
       modal.innerHTML = `
       <div class="modal-content">
         <span class="close"><i class="fa-solid fa-x"></i></span>
@@ -95,40 +94,39 @@ class ModalRenderer {
           <button type="submit">Save</button>
         </form>
       </div>`;
-      const closeButton = modal.querySelector('.close');
-      closeButton?.addEventListener('click', () => {
-        modal.classList.remove('show');
-        modal.classList.add('hide');
+      const closeButton = modal.querySelector(".close");
+      closeButton?.addEventListener("click", () => {
+        modal.classList.remove("show");
+        modal.classList.add("hide");
       });
 
-      const editProjectForm = modal.querySelector('#edit-project-form');
+      const editProjectForm = modal.querySelector("#edit-project-form");
       if (editProjectForm instanceof HTMLFormElement) {
-        editProjectForm.addEventListener('submit', (event) => {
+        editProjectForm.addEventListener("submit", (event) => {
           event.preventDefault();
 
           const formData = new FormData(editProjectForm);
-          const name = formData.get('name')?.toString() || '';
-          const description = formData.get('description')?.toString() || '';
+          const name = formData.get("name")?.toString() || "";
+          const description = formData.get("description")?.toString() || "";
 
           onEdit(name, description);
 
           // Close the modal
-          modal.classList.remove('show');
-          modal.classList.add('hide');
+          modal.classList.remove("show");
+          modal.classList.add("hide");
         });
-
       }
     }
   }
 
   /**
    * @method - show new todo modal
-   * @param {(todo: Todo) => void} [onSubmit=(todo) => { }] 
+   * @param {(todo: Todo) => void} [onSubmit=(todo) => { }]
    * */
-  showNewTodoModal(onSubmit = (todo) => { }) {
-    const modal = this.#ui.addElement('div', this.#parentElement, 'modal');
+  showNewTodoModal(onSubmit = (todo) => {}) {
+    const modal = this.#ui.addElement("div", this.#parentElement, "modal");
     if (modal instanceof HTMLDivElement) {
-      modal.classList.add('show');
+      modal.classList.add("show");
       modal.innerHTML = `
       <div class="modal-content">
         <span class="close"><i class="fa-solid fa-x"></i></span>
@@ -151,24 +149,32 @@ class ModalRenderer {
         </form>
       </div>`;
 
-      const closeButton = modal.querySelector('.close');
-      closeButton?.addEventListener('click', () => {
-        modal.classList.remove('show');
-        modal.classList.add('hide');
+      const closeButton = modal.querySelector(".close");
+      closeButton?.addEventListener("click", () => {
+        modal.classList.remove("show");
+        modal.classList.add("hide");
       });
-      const addTodoForm = modal.querySelector('#add-todo-form');
+      const addTodoForm = modal.querySelector("#add-todo-form");
       if (addTodoForm instanceof HTMLFormElement) {
-        addTodoForm.addEventListener('submit', (event) => {
+        addTodoForm.addEventListener("submit", (event) => {
           event.preventDefault();
 
           const formData = new FormData(addTodoForm);
-          const title = formData.get('title')?.toString() || '';
-          const description = formData.get('description')?.toString() || '';
-          const dueDateString = formData.get('dueDate');
-          const dueDate = typeof dueDateString === 'string' && dueDateString.length > 0 ? new Date(dueDateString) : new Date();
-          const priorityString = formData.get('priority');
-          const priority = typeof priorityString === 'string' ? parseInt(priorityString, 10) : 3; // Default to Medium if not provided
-          console.log(`Creating new Todo with title: ${title}, description: ${description}, dueDate: ${dueDate}, priority: ${priority}`);
+          const title = formData.get("title")?.toString() || "";
+          const description = formData.get("description")?.toString() || "";
+          const dueDateString = formData.get("dueDate");
+          const dueDate =
+            typeof dueDateString === "string" && dueDateString.length > 0
+              ? new Date(dueDateString)
+              : new Date();
+          const priorityString = formData.get("priority");
+          const priority =
+            typeof priorityString === "string"
+              ? parseInt(priorityString, 10)
+              : 3; // Default to Medium if not provided
+          console.log(
+            `Creating new Todo with title: ${title}, description: ${description}, dueDate: ${dueDate}, priority: ${priority}`,
+          );
 
           // Create a new Todo object
           const todo = new Todo(title, description, dueDate, priority);
@@ -177,28 +183,28 @@ class ModalRenderer {
           onSubmit(todo);
 
           // Close the modal
-          modal.classList.remove('show');
-          modal.classList.add('hide');
+          modal.classList.remove("show");
+          modal.classList.add("hide");
         });
       }
     }
   }
 
-
-
   /**
    * @method showEditModal to show the modal ui
    * @param {Function} onUpdate
    * */
-  showEditModal(onUpdate = () => { }) {
+  showEditModal(onUpdate = () => {}) {
     if (!this.#todo) {
-      console.error('ModalRenderer: Cannot show edit modal without a todo object.');
+      console.error(
+        "ModalRenderer: Cannot show edit modal without a todo object.",
+      );
       return;
     }
-    const modal = this.#ui.addElement('div', this.#parentElement, 'modal');
+    const modal = this.#ui.addElement("div", this.#parentElement, "modal");
 
     if (modal instanceof HTMLDivElement) {
-      modal.classList.add('show');
+      modal.classList.add("show");
       if (this.#todo.dueDate === null) {
         this.#todo.dueDate = new Date();
       }
@@ -215,52 +221,51 @@ class ModalRenderer {
           <input type="datetime-local" id="todo-due-date" name="dueDate" value="${format(this.#todo.dueDate, `yyyy-MM-dd'T'HH:mm`)}">
           <label for="todo-priority">Priority:</label>
           <select id="todo-priority" name="priority">
-            <option value="1" ${this.#todo.priority === 1 ? 'selected' : ''}>Lowest</option>
-            <option value="2" ${this.#todo.priority === 2 ? 'selected' : ''}>Low</option>
-            <option value="3" ${this.#todo.priority === 3 ? 'selected' : ''}>Medium</option>
-            <option value="4" ${this.#todo.priority === 4 ? 'selected' : ''}>High</option>
+            <option value="1" ${this.#todo.priority === 1 ? "selected" : ""}>Lowest</option>
+            <option value="2" ${this.#todo.priority === 2 ? "selected" : ""}>Low</option>
+            <option value="3" ${this.#todo.priority === 3 ? "selected" : ""}>Medium</option>
+            <option value="4" ${this.#todo.priority === 4 ? "selected" : ""}>High</option>
           </select>
           <button type="submit">Save</button>
         </form>
       </div>`;
 
       const close = () => {
-        modal.classList.remove('show');
-        modal.classList.add('hide');
-      }
+        modal.classList.remove("show");
+        modal.classList.add("hide");
+      };
 
-
-      const closeButton = modal.querySelector('.close');
+      const closeButton = modal.querySelector(".close");
       if (closeButton) {
-        closeButton.addEventListener('click', close);
+        closeButton.addEventListener("click", close);
       }
 
-      const editForm = modal.querySelector('#edit-todo-form');
+      const editForm = modal.querySelector("#edit-todo-form");
       if (editForm instanceof HTMLFormElement) {
-        editForm.addEventListener('submit', (event) => {
+        editForm.addEventListener("submit", (event) => {
           event.preventDefault();
 
-          console.log('form submitted');
+          console.log("form submitted");
 
           const formData = new FormData(editForm);
           for (const pair of formData.entries()) {
             console.log(`${pair[0]}: ${pair[1]}`);
           }
           if (!this.#todo) {
-            console.error('ModalRenderer: todo object is null or undefined')
+            console.error("ModalRenderer: todo object is null or undefined");
             return;
           }
           // update todo
-          this.#todo.title = '' + formData.get('title') || '';
-          this.#todo.description = '' + formData.get('description') || '';
-          const dueDateString = formData.get('dueDate');
-          if (typeof dueDateString === 'string' && dueDateString.length > 0) {
+          this.#todo.title = "" + formData.get("title") || "";
+          this.#todo.description = "" + formData.get("description") || "";
+          const dueDateString = formData.get("dueDate");
+          if (typeof dueDateString === "string" && dueDateString.length > 0) {
             this.#todo.dueDate = new Date(dueDateString);
           } else {
             this.#todo.dueDate = new Date(); // Fallback to current date if not provided
           }
-          const priorityString = formData.get('priority');
-          if (typeof priorityString === 'string') {
+          const priorityString = formData.get("priority");
+          if (typeof priorityString === "string") {
             const priorityNumber = parseInt(priorityString, 10);
             if (!isNaN(priorityNumber)) {
               this.#todo.priority = priorityNumber;
@@ -271,7 +276,6 @@ class ModalRenderer {
 
           close();
         });
-
       }
     }
   }

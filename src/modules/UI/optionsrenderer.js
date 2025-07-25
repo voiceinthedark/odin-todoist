@@ -23,19 +23,27 @@ class OptionsRenderer {
    *
    * */
   renderOptions(parentElement, options) {
-    const optionsContainer = document.createElement('div');
+    const optionsContainer = document.createElement("div");
     parentElement.appendChild(optionsContainer);
 
-    const optionsList = this.#ui.addElement('ul', optionsContainer, 'options-list');
-    options.forEach(option => {
-      const optionItem = this.#ui.addElement('li', optionsList, 'option-item');
-      const optionButton = this.#ui.addElement('button', optionItem, 'option-button');
+    const optionsList = this.#ui.addElement(
+      "ul",
+      optionsContainer,
+      "options-list",
+    );
+    options.forEach((option) => {
+      const optionItem = this.#ui.addElement("li", optionsList, "option-item");
+      const optionButton = this.#ui.addElement(
+        "button",
+        optionItem,
+        "option-button",
+      );
       optionButton.textContent = option.name;
       if (optionButton instanceof HTMLButtonElement) {
         optionButton.innerHTML = `<span class="${option.name}"></span> ${option.name}`;
       }
-      optionButton.addEventListener('click', () => {
-        if (typeof option.value === 'function') {
+      optionButton.addEventListener("click", () => {
+        if (typeof option.value === "function") {
           option.value();
         } else {
           console.warn(`Option value for ${option.name} is not a function.`);
@@ -44,7 +52,6 @@ class OptionsRenderer {
     });
     return optionsContainer;
   }
-
 }
 
 export default OptionsRenderer;
