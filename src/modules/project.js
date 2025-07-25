@@ -53,20 +53,28 @@ class Project {
     this.#todoManager.todos = val;
   }
 
+  getCompletedTodos() {
+    return this.#todoManager.todos.filter(t => t.status);
+  }
 
- /**
-  * function addTodo - adds a todo associated with the current project
-  * @param {Object} todoData - Todo data object
-  * @param {string} todoData.title - Todo title
-  * @param {string} todoData.description - Todo description
-  * @param {Date} todoData.dueDate - Due date
-  * @param {number} todoData.priority - Priority level
-  * @param {boolean} [todoData.status=false] - Completion status
-  * @param {string} [todoData.notes=''] - Additional notes
-  * @param {Array} [todoData.checklist=[]] - Checklist items
-  * @returns {Todo}
-  * */
- addTodo(todoData) {
+  getPendingTodos() {
+    return this.#todoManager.todos.filter(t => !t.status);
+  }
+
+
+  /**
+   * function addTodo - adds a todo associated with the current project
+   * @param {Object} todoData - Todo data object
+   * @param {string} todoData.title - Todo title
+   * @param {string} todoData.description - Todo description
+   * @param {Date} todoData.dueDate - Due date
+   * @param {number} todoData.priority - Priority level
+   * @param {boolean} [todoData.status=false] - Completion status
+   * @param {string} [todoData.notes=''] - Additional notes
+   * @param {Array} [todoData.checklist=[]] - Checklist items
+   * @returns {Todo}
+   * */
+  addTodo(todoData) {
     return this.#todoManager.addTodo(
       todoData.title,
       todoData.description,

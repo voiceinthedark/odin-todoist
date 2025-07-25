@@ -114,6 +114,15 @@ class AppController {
     if (headerDescription instanceof HTMLSpanElement) {
       headerDescription.textContent = project.description;
     }
+    // add complete incomplete todos
+    const headerTodoCount = this.#uiManager.addElement('div', headerProjectDiv, 'todo-count');
+    const completeHeaderCount = this.#uiManager.addElement('span', headerTodoCount, 'complete-todo-count');
+    const incompleteHeaderCount = this.#uiManager.addElement('span', headerTodoCount, 'incomplete-todo-count');
+    if (completeHeaderCount instanceof HTMLSpanElement && incompleteHeaderCount instanceof HTMLSpanElement) {
+      completeHeaderCount.textContent = `Completed: ${project.getCompletedTodos().length}`;
+      incompleteHeaderCount.textContent = `Pending: ${project.getPendingTodos().length}`;
+    }
+
     const addTodoButton = this.#uiManager.addElement('button', this.#contentHeader, 'add-todo-btn');
     if (addTodoButton instanceof HTMLButtonElement) {
       addTodoButton.innerHTML = `<i class="fa-solid fa-file"></i> Add Todo`;

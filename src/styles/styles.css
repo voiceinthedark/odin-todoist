@@ -255,6 +255,15 @@ body {
           color: var(--color-grayish);
           line-height: 0.5;
         }
+
+        &>.todo-count {
+          display: flex;
+          gap: 4px;
+          font-size: 70%;
+          color: var(--color-grayish);
+          line-height: 1.2;
+          margin-top: 8px;
+        }
       }
 
       .add-todo-btn {
