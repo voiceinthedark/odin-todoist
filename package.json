@@ -1,6 +1,6 @@
 {
   "name": "todoist",
-  "version": "0.3.04",
+  "version": "0.3.05",
   "description": "A todo list (Odin Curriculum)",
   "main": "index.js",
   "scripts": {

@@ -170,7 +170,7 @@ class TodoRenderer {
    * @method
    * @param {Todo[]} todos - an array of Todo objects
    * @param {string} parentElement 
-   * @description Renders a list of todos
+   * @description Renders a list of todos and filter them by status
    */
   renderTodoList(todos, parentElement) {
     if (!Array.isArray(todos)) {
@@ -180,6 +180,12 @@ class TodoRenderer {
     const summaryParent = this.#ui.addElement('summary', detailsParent, 'details-summary');
     if (summaryParent instanceof HTMLElement) {
       summaryParent.textContent = parentElement;
+    }
+    // if parent element pending make it open details
+    if(parentElement === 'Pending'){
+      if(detailsParent instanceof HTMLDetailsElement){
+        detailsParent.setAttribute('open', "true")
+      }
     }
 
     todos.forEach((todo) => {

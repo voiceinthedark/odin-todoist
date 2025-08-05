@@ -17,7 +17,7 @@ A todoist clone.
 - [ ] Sort tasks by dates
 - [ ] Save and load tasks into and from file backup
 - [ ] Add Archiving of tasks
-- [ ] Sort tasks by completed or pending
+- [x] Sort tasks by completed or pending
 
 ## Assets
 
