@@ -93,10 +93,12 @@ class ProjectRenderer {
       const projectItem = document.createElement("li");
       projectItem.classList.add("project-item");
       projectItem.dataset.projectId = project.id;
-      const projectDiv = document.createElement("div");
+      
+      const projectDiv = this.#ui.addElement('div', projectItem, 'project-div');
+      const projectLink = this.#ui.addElement('a', projectDiv, 'project-link');
       const projectName = this.#ui.addElement(
         "span",
-        projectDiv,
+        projectLink,
         "project-name",
       );
       if (projectName instanceof HTMLSpanElement) {

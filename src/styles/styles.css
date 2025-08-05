@@ -104,11 +104,14 @@ body {
         justify-content: space-between;
         align-items: center;
 
-        & > i {
-          padding-right: 10px;
-          padding-left: 10px;
-          padding-top: 5px;
-          padding-bottom: 5px;
+        & > a{
+          text-decoration: none;
+          color: white;
+        }
+
+        & > a > i {
+          width: 32px;
+          height: 32px;
           font-size: 110%;
           border-radius: 9px;
           background-color: rgba(255, 255, 250, 0.2);
@@ -128,7 +131,7 @@ body {
 
       #add-project-btn {
         display: flex;
-        border: 2px solid white;
+        border: 1px solid white;
         justify-content: center;
         align-items: center;
       }
@@ -153,6 +156,7 @@ body {
         margin-left: 0;
         margin-bottom: 10px;
 
+
         & > li > div {
           display: flex;
           align-items: center;
@@ -169,7 +173,7 @@ body {
             cursor: pointer;
           }
 
-          & > .project-name {
+          & > .project-link > .project-name {
             font-size: 130%;
             font-weight: 600;
           }
@@ -237,6 +241,7 @@ body {
     .content-head {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       width: 50%;
 
       .project-header {

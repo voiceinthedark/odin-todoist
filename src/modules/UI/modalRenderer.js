@@ -37,7 +37,7 @@ class ModalRenderer {
       modal.classList.add("show");
       modal.innerHTML = `
       <div class="modal-content">
-        <span class="close"><i class="fa-solid fa-x"></i></span>
+        <a><span class="close"><i class="fa-solid fa-x"></i></span></a>
         <h2>Add new Project</h2>
         <form id="add-project-form">
           <label for="project-name">Name:</label>
