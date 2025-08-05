@@ -139,6 +139,8 @@ class TodoRenderer {
       });
     }
 
+    // TODO: Add archive button
+
     // set the data attribute for the todo
     if (todoCard instanceof HTMLDivElement) {
       todoCard.setAttribute("data-todo-id", todo.id);
