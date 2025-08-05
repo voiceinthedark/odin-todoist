@@ -35,12 +35,13 @@ class TodoRenderer {
   /**
    * @method
    * @param {Todo} todo - the todo item to be rendered
+   * @param {HTMLElement} parentElement 
    * @description Renders a single todo card to the parent element.
    * */
-  renderTodo(todo) {
+  renderTodo(todo, parentElement) {
     const todoCard = this.#ui.addElement(
       "div",
-      this.#parentElement,
+      parentElement,
       "todo-card",
     );
 
@@ -168,16 +169,26 @@ class TodoRenderer {
   /**
    * @method
    * @param {Todo[]} todos - an array of Todo objects
+   * @param {string} parentElement 
    * @description Renders a list of todos
    */
-  renderTodoList(todos) {
+  renderTodoList(todos, parentElement) {
     if (!Array.isArray(todos)) {
       throw new Error("Expected an array of Todo objects");
     }
+    const detailsParent = this.#ui.addElement('details', this.#parentElement, 'details-todolist')
+    const summaryParent = this.#ui.addElement('summary', detailsParent, 'details-summary');
+    if (summaryParent instanceof HTMLElement) {
+      summaryParent.textContent = parentElement;
+    }
+
     todos.forEach((todo) => {
-      this.renderTodo(todo);
+      if (detailsParent instanceof HTMLElement) {
+        this.renderTodo(todo, detailsParent);
+      }
     });
   }
 }
 
+/** @module TodoRenderer */
 export default TodoRenderer;

@@ -120,9 +120,21 @@ class AppController {
   renderTodosForProject(project) {
     this.#uiManager.clearElement(this.#contentMain); // Clear existing todos
     this.#uiManager.clearElement(this.#contentHeader);
-    this.#todoRenderer.renderTodoList(project.todos);
+
+    // TODO: filter the todo list into complete and pendingTodos
+    // Make a UI details element to group the groups distinctly
+    // Filtered todos
+    const completeTodos = project.todos.filter((t) => {
+      return t.status === true
+    })
+    const pendingTodos = project.todos.filter((t) => {
+      return t.status === false;
+    })
+    this.#todoRenderer.renderTodoList(completeTodos, 'Completed');
+    this.#todoRenderer.renderTodoList(pendingTodos, 'Pending');
     this.#currentActiveProject = project; // Update active project
     console.log(`Displaying todos for project: ${project.name}`);
+
 
     const headerProjectDiv = this.#uiManager.addElement(
       "div",
