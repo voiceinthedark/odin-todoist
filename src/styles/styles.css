@@ -179,7 +179,11 @@ body {
             border-radius: 50%;
             border: 1px solid var(--tea-green);
             background-color: var(--bg-color-tertiary);
-            padding: 4px 8px;
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
           }
 
           & > .project-edit-btn {
