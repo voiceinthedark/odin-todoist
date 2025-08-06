@@ -279,6 +279,39 @@ class ModalRenderer {
       }
     }
   }
+
+  /**
+   * @method to show the dowload link modal
+   * @param {() => void} [onDownload=() => {}] 
+   * */
+  showDownloadModal(onDownload = () => {}){
+    const modal = this.#ui.addElement("div", this.#parentElement, "modal");
+    if (modal instanceof HTMLDivElement) {
+      modal.classList.add("show");
+      modal.innerHTML = `
+      <div class="modal-content">
+        <span class="close"><i class="fa-solid fa-x"></i></span>
+        <h2>Download Data</h2>
+        <p>Click the button below to download your data as a JSON file.</p>
+        <button id="download-data">Download</button>
+      </div>`;
+
+      const closeButton = modal.querySelector(".close");
+      closeButton?.addEventListener("click", () => {
+        modal.classList.remove("show");
+        modal.classList.add("hide");
+      });
+
+      const downloadButton = modal.querySelector("#download-data");
+      if (downloadButton instanceof HTMLButtonElement) {
+        downloadButton.addEventListener("click", () => {
+          onDownload();
+          modal.classList.remove("show");
+          modal.classList.add("hide");
+        });
+      }
+    }
+  }
 }
 
 /**

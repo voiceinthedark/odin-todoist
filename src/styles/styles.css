@@ -85,6 +85,40 @@ body {
 
     &>.sidebar-options {
 
+       .options-list{
+        list-style: none;
+
+        & > li {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 5px 10px;
+          font-size: 120%;
+          color: var(--sidebar-color);
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            background-color: rgba(255, 255, 250, 0.2);
+            cursor: pointer;
+          }
+
+          & > button{
+            background: none;
+            border: none;
+            color: inherit;
+            font: inherit;
+            padding: 0;
+            cursor: pointer;
+            outline: inherit;
+          }
+
+          &>i {
+            font-size: 120%;
+            color: var(--color-tea);
+          }
+        }
+      }
+
       /* grid-area: options; */
       &>ul {
         list-style: none;

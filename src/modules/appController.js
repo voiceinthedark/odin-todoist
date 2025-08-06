@@ -4,6 +4,7 @@ import projectManager from "./projectmanager";
 import ProjectRenderer from "./UI/projectrenderer";
 import TodoRenderer from "./UI/todorenderer";
 import ModalRenderer from "./UI/modalRenderer";
+import OptionsRenderer from "./UI/optionsrenderer";
 
 class AppController {
   #uiManager;
@@ -22,7 +23,7 @@ class AppController {
     this.#projectManager = projectManager; // Using the singleton projectManager
     this.#uiManager = new UIManager(appContainer);
     this.#projectRenderer = new ProjectRenderer(this.#uiManager);
-    // this.#modalRenderer = new ModalRenderer(this.#uiManager);
+    this.#modalRenderer = new ModalRenderer(null, null, this.#appContainer, this.#uiManager);
 
     // Get DOM elements for rendering
     this.#sidebarListsBody = document.querySelector(".sidebar-lists-body");
@@ -76,6 +77,9 @@ class AppController {
 
     // Set up global event listeners or other initializations
     this.setupEventListeners();
+
+    // Render Options in the sidebar
+    this.renderOptions()
   }
 
   setupEventListeners() {
@@ -87,6 +91,69 @@ class AppController {
     }
 
     // Edit project button
+  }
+
+  /**
+   * Renders the options in the sidebar.
+   * */
+  renderOptions() {
+    const optionsContainer = document.querySelector(".sidebar-options");
+    const options = [
+      {
+        name: "Export Tasks",
+        icon: "fa-solid fa-file-export",
+        value: () => {
+          // Implement export functionality
+          console.log("Export tasks clicked");
+          const projects = this.#projectManager.exportProjects();
+          const blob = new Blob([projects], { type: "application/json" });
+          const url = URL.createObjectURL(blob);
+          // create a link to download the file
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = "projects.json"; // Name of the file to download
+          // Append the link to a modal
+          console.log("Exporting projects to file:", link.download);
+          this.#modalRenderer.showDownloadModal(() => {
+            link.click();
+            // release the memory
+            URL.revokeObjectURL(url);
+          });
+
+        },
+      },
+      {
+        name: "Import Tasks",
+        icon: "fa-solid fa-file-import",
+        value: () => {
+          // Implement import functionality
+          console.log("Import tasks clicked");
+          // this.#projectManager.importProjects();
+          this.renderProjects(); // Re-render projects after import
+        },
+      },
+      {
+        name: "Archive",
+        icon: "fa-solid fa-archive",
+        value: () => {
+          // Implement archive functionality
+          console.log("Archive clicked");
+          // this.#uiManager.showArchiveModal();
+        },
+      },
+      {
+        name: "settings",
+        icon: "fa-solid fa-gear",
+        value: () => {
+          // Implement settings functionality
+          console.log("Settings clicked");
+          // this.#uiManager.showSettingsModal();
+        },
+      },
+    ];
+
+    const optionsRenderer = new OptionsRenderer(this.#uiManager)
+    optionsRenderer.renderOptions(optionsContainer, options)
   }
 
   /**
@@ -121,8 +188,6 @@ class AppController {
     this.#uiManager.clearElement(this.#contentMain); // Clear existing todos
     this.#uiManager.clearElement(this.#contentHeader);
 
-    // TODO: filter the todo list into complete and pendingTodos
-    // Make a UI details element to group the groups distinctly
     // Filtered todos
     const completeTodos = project.todos.filter((t) => {
       return t.status === true

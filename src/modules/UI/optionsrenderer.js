@@ -38,9 +38,12 @@ class OptionsRenderer {
         optionItem,
         "option-button",
       );
+      
+
       optionButton.textContent = option.name;
       if (optionButton instanceof HTMLButtonElement) {
-        optionButton.innerHTML = `<span class="${option.name}"></span> ${option.name}`;
+        optionButton.innerHTML = `<i class="${option.icon}"></i>
+        <span>${option.name}</span>`;
       }
       optionButton.addEventListener("click", () => {
         if (typeof option.value === "function") {

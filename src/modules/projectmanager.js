@@ -136,6 +136,13 @@ class ProjectManager {
       console.log("No projects found in localStorage.");
     }
   }
+
+  exportProjects() {
+    const serializableProjects = this.projects.map((project) =>
+      project.toJSON(),
+    );
+    return JSON.stringify(serializableProjects, null, 2);
+  }
 }
 
 /**
